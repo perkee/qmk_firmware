@@ -422,6 +422,13 @@ enum quantum_keycodes {
     // Right shift, close paren
     KC_RSPC,
 
+    KC_LCBO, // left command brace open {
+    KC_RCBC, // right command brace close }
+
+    KC_LOAO, // left option angle open <
+    KC_ROAC, // right option angle close >
+
+
     // Printing
     PRINT_ON,
     PRINT_OFF,
