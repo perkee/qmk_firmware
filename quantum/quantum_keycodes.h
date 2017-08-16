@@ -428,6 +428,8 @@ enum quantum_keycodes {
     KC_LOAO, // left option angle open <
     KC_ROAC, // right option angle close >
 
+    KC_CTLDQ, // left control double quote "
+
 
     // Printing
     PRINT_ON,
