@@ -13,9 +13,10 @@ Perkee's Let's Split Layout
     - swap space and backspace
     - See diagram, honestly
 - Lower layer
-    - tktktkt
+    - numpad number layout and just one dedicated screencap key (cmd shift 4)
+    - also a reset key so you don't have to hit pins with a paper clip.
 - Upper layer
-    - tktktktkt
+    - vi arrow layout and some symbols
 
 ## Layouts
 
@@ -28,11 +29,11 @@ Perkee's Let's Split Layout
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
 |LSPO| Z  | X  | C  | V  | B  |    | N  | M  | ,  | .  | /  |RSPC|
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-|  ` |HYPE|LOWR|LOPT|LCMD|BSPC|    |SPC |RCMD|ROPT|RAIS| &  | ?  |
+|  ` |HYPE|LOWR|LOPT|LCMD|BSPC|    |SPC |RCMD|ROPT|RAIS| -  | ?  |
 `----+----+----+----+----+----'    `----+----+----+----+----+----'
 ```
 
-### Lower
+### Raise
 ```
 |----+----+----+----+----+----.    ,----+----+----+----+----+----.
 |    |    |    |    |    |    |    | ^  | @  | #  | $  | %  | \  |
@@ -45,7 +46,7 @@ Perkee's Let's Split Layout
 `----+----+----+----+----+----'    `----+----+----+----+----+----'
 ```
 
-### Raise
+### Lower
 ```
 |----+----+----+----+----+----.    ,----+----+----+----+----+----.
 |    | =  | +  | 7  | 8  | 9  |    |    |    |    |    |    |RSET|

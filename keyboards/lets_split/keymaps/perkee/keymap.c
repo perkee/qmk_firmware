@@ -50,11 +50,12 @@ enum custom_keycodes {
 #define KC_CAPP LGUI(LSFT(KC_4))        // Capture portion of screen
 #define KC_CPYP LGUI(LSFT(LCTL(KC_4)))  // Copy portion of screen
 #define KC_X0 KC_CTLDQ
+#define KC_RSET RESET
 #define KC_X1 LT(_LOWER, KC_LBRC)
 #define KC_X2 LT(_RAISE, KC_RBRC)
-#define KC_X3 LT(_FN3, KC_GRV)
-#define KC_X4 MT(MOD_LSFT, KC_ENT)
+#define KC_X3 MT(MOD_RCTL, KC_ENT)
 #define KC_HYPE ALL_T(KC_ESC)
+#define KC_HYPB ALL_T(KC_BSPC)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -62,11 +63,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
      TAB , Q  , W  , E  , R  , T  ,      Y  , U  , I  , O  , P  ,EQL,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-      X0 , A  , S  , D  , F  , G  ,      H  , J  , K  , L  ,SCLN, ENT,
+      X0 , A  , S  , D  , F  , G  ,      H  , J  , K  , L  ,SCLN, X3 ,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
      LSPO, Z  , X  , C  , V  , B  ,      N  , M  ,COMM,DOT ,SLSH,RSPC,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-      GRV,HYPE, X1 ,LOAO,LCBO,BSPC,     SPC, RCBC,ROAC, X2, AMPR,QUES
+      GRV,HYPE, X1 ,LOAO,LCBO,HYPB,     SPC, RCBC,ROAC, X2, MINS,QUES
   //`----+----+----+----+----+----'    `----+----+----+----+----+----'
   ),
 
@@ -84,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_RAISE] = KC_KEYMAP(
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
-         ,EQL ,PLUS, 7  , 8  , 9  ,         ,    ,    ,    ,    ,    ,
+         ,EQL ,PLUS, 7  , 8  , 9  ,         ,    ,    ,    ,    ,RSET,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
          ,UNDS,MINS, 4  , 5  , 6  ,         ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
