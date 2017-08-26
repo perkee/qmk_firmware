@@ -12,11 +12,18 @@ Perkee's Let's Split Layout
     - Every modifier has a tap behavior so US brackets are available from this layer
     - swap space and backspace
     - See diagram, honestly
+    - XO is command when held, backspace when tapped
+    - X1 is command when held, space when tapped
+    - X2 is control when held, enter when tapped
 - Lower layer
-    - numpad number layout and just one dedicated screencap key (cmd shift 4)
+    - numpad number layout
+    - two dedicated screencap key (CAPP: cmd shift 4) and (CAPW: cmd shift 3)
     - also a reset key so you don't have to hit pins with a paper clip.
 - Upper layer
     - vi arrow layout and some symbols
+    - command plus numbers
+
+Pretty graphical layout of keyboard [here](http://www.keyboard-layout-editor.com/#/gists/6f49fdce9c9dfb3b8bbb6c55a300b318)
 
 ## Layouts
 
@@ -25,36 +32,36 @@ Perkee's Let's Split Layout
 ,----+----+----+----+----+----.    ,----+----+----+----+----+----.
 |TAB | Q  | W  | E  | R  | T  |    | Y  | U  | I  | O  | P  | =  |
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-| X0 | A  | S  | D  | F  | G  |    | H  | J  | K  | L  | ;  | ENT|
+|CTL"| A  | S  | D  | F  | G  |    | H  | J  | K  | L  | ;  | X2 |
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-|LSPO| Z  | X  | C  | V  | B  |    | N  | M  | ,  | .  | /  |RSPC|
+|SFT(| Z  | X  | C  | V  | B  |    | N  | M  | ,  | .  | /  |SFT)|
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-|  ` |HYPE|LOWR|LOPT|LCMD|BSPC|    |SPC |RCMD|ROPT|RAIS| -  | ?  |
+|  ` |ESC |HYP[|LOW<|OPT{| X0 |    | X1 |OPT}|RAS>|HYP>| -  | '  |
 `----+----+----+----+----+----'    `----+----+----+----+----+----'
 ```
 
 ### Raise
 ```
 |----+----+----+----+----+----.    ,----+----+----+----+----+----.
-|    |    |    |    |    |    |    | ^  | @  | #  | $  | %  | \  |
+|    |    |CMD7|CMD8|CMD9|    |    | ^  | @  | #  | $  | %  | \  |
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-|    |    |    |    |    |    |    |LEFT|DOWN| UP |RGHT| '  | |  |
+|    |CMD0|CMD4|CMD5|CMD6|    |    |LEFT|DOWN| UP |RGHT| '  | |  |
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-|    |    |    |    |    |    |    |  0 | &  | *  | !  | `  | ~  |
+|    |    |CMD1|CMD2|CMD3|    |    |  0 | &  | *  | !  | `  | ~  |
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-|    |    |    |    |    |    |    |    |    |    |    |    |    |
+|    |    |CMD0|    |    |    |    |    |    |    |    |    |    |
 `----+----+----+----+----+----'    `----+----+----+----+----+----'
 ```
 
 ### Lower
 ```
 |----+----+----+----+----+----.    ,----+----+----+----+----+----.
-|    | =  | +  | 7  | 8  | 9  |    |    |    |    |    |    |RSET|
+|CAPW| _  | 7  | 8  | 9  | =  |    |    |    |    |    |    |RSET|
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-|    | _  | -  | 4  | 5  | 6  |    |    |    |    |    |    |    |
+|CAPP| -  | 4  | 5  | 6  | +  |    |WH L|WH D|WH U|WH R|    |    |
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-|MUTE|CAPP| *  | 1  | 2  | 3  |    |    |    |    |    |    |    |
+|MUTE| *  | 1  | 2  | 3  | /  |    |    |    |    |    |    |    |
 |----+----+----+----+----+----|    |----+----+----+----+----+----|
-|    |    |    |TAB | 0  |ENT |    |    |    |    |    |    |    |
+|VOLD|VOLU| TAB| 0  | ENT|    |    |    |    |    |    |    |    |
 `----+----+----+----+----+----'    `----+----+----+----+----+----'
 ```
