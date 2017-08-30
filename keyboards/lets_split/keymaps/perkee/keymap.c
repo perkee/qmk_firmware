@@ -4,7 +4,7 @@
 
 extern keymap_config_t keymap_config;
 
-static uint16_t space_cadet_layer_timer[2] = {0, 0};
+static uint16_t space_cadet_hyper_timer[2] = {0, 0};
 
 static bool option_interrupted[2] = {0, 0};
 static uint16_t space_cadet_option_timer[2] = {0, 0};
@@ -16,12 +16,12 @@ static uint16_t space_cadet_control_timer = 0;
 #define _RAISE 2
 
 enum custom_keycodes {
-  KC_LRAO  // layer raise angle open {
+  KC_LHAO  // left hyper angle open <
     = SAFE_RANGE,
-  KC_LLAC, // layer lower angle close }
+  KC_RHAC, // right hyper angle close >
 
   KC_LOBO, // left option brace open {
-  KC_ROBC, // right option brace close >
+  KC_ROBC, // right option brace close }
 
   KC_LCDQ // left control double quote "
 };
@@ -33,8 +33,6 @@ enum custom_keycodes {
 
 #define KC_RSET RESET
 #define KC_RC_ENT MT(MOD_RCTL, KC_ENT)
-#define KC_LHBO MT(MOD_LGUI | MOD_LCTL | MOD_LSFT | MOD_LALT, KC_LBRC) // left hyper bracket open [
-#define KC_RHBC MT(MOD_RGUI | MOD_RCTL | MOD_RSFT | MOD_RALT, KC_RBRC) // right hyper bracket close ]
 
 #define KC_LCBS MT(MOD_LGUI, KC_BSPC) // left command backspace
 #define KC_RCSP MT(MOD_RGUI, KC_SPC)  // right command space
@@ -50,8 +48,8 @@ enum custom_keycodes {
 #define KC_CMD8 LGUI(KC_8)
 #define KC_CMD9 LGUI(KC_9)
 
-#define KC_LO_H LT(_LOWER, KC_H)
-#define KC_RS_G LT(_RAISE, KC_G)
+#define KC_LO_J LT(_LOWER, KC_J)
+#define KC_RS_F LT(_RAISE, KC_F)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -59,11 +57,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
      TAB , Q  , W  , E  , R  , T  ,      Y  , U  , I  , O  , P  , EQL,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-     LCDQ, A  , S  , D  , F  ,RS_G,     LO_H, J  , K  , L  ,SCLN,RC_ENT,
+     LCDQ, A  , S  , D  ,RS_F, G  ,      H  ,LO_J, K  , L  ,SCLN,RC_ENT,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
      LSPO, Z  , X  , C  , V  , B  ,      N  , M  ,COMM,DOT ,SLSH,RSPC,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-     GRV , ESC,LHBO,LRAO,LOBO,LCBS,     RCSP,ROBC,LLAC,RHBC,MINS,QUOT
+     GRV , ESC,LBRC,LHAO,LOBO,LCBS,     RCSP,ROBC,RHAC,RBRC,MINS,QUOT
   //`----+----+----+----+----+----'    `----+----+----+----+----+----'
   ),
 
@@ -81,48 +79,56 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_RAISE] = KC_KEYMAP(
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
-         ,    ,CMD7,CMD8,CMD9,    ,     CIRC, AT ,HASH, DLR,PERC,BSLS,
+         ,    ,    ,    ,    ,    ,     CIRC, AT ,HASH, DLR,PERC,BSLS,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-    CAPS,CMD0,CMD4,CMD5,CMD6,    ,     LEFT,DOWN, UP ,RGHT,QUOT,PIPE,
+     CAPS,    ,    ,    ,    ,    ,     LEFT,DOWN, UP ,RGHT,QUOT,PIPE,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-         ,    ,CMD1,CMD2,CMD3,    ,     0   ,AMPR,ASTR,EXLM, GRV,TILD,
+         ,    ,    ,    ,    ,    ,     0   ,AMPR,ASTR,EXLM, GRV,TILD,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-         ,    ,CMD0,    ,    ,    ,         ,    ,    ,    ,    ,
+         ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,
   //`----+----+----+----+----+----'    `----+----+----+----+----+----'
   )
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case KC_LRAO: {
+    case KC_LHAO: {
       if (record->event.pressed) {
-        space_cadet_layer_timer[0] = timer_read ();
-        layer_on(_RAISE);
+        space_cadet_hyper_timer[0] = timer_read ();
+        register_mods(MOD_BIT(KC_LSHIFT));
+        register_mods(MOD_BIT(KC_LGUI));
+        register_mods(MOD_BIT(KC_LALT));
+        register_mods(MOD_BIT(KC_LCTRL));
       }
       else {
-        layer_off(_RAISE);
-        if (timer_elapsed(space_cadet_layer_timer[0]) < TAPPING_TERM) {
-          register_mods(MOD_BIT(KC_LSHIFT));
+        unregister_mods(MOD_BIT(KC_LCTRL));
+        unregister_mods(MOD_BIT(KC_LALT));
+        unregister_mods(MOD_BIT(KC_LGUI));
+        if (timer_elapsed(space_cadet_hyper_timer[0]) < TAPPING_TERM) {
           register_code(KC_COMMA);
           unregister_code(KC_COMMA);
-          unregister_mods(MOD_BIT(KC_LSHIFT));
         }
+        unregister_mods(MOD_BIT(KC_LSHIFT));
       }
       return false;
     }
-    case KC_LLAC: {
+    case KC_RHAC: {
       if (record->event.pressed) {
-        space_cadet_layer_timer[1] = timer_read ();
-        layer_on(_LOWER);
+        space_cadet_hyper_timer[1] = timer_read ();
+        register_mods(MOD_BIT(KC_RSHIFT));
+        register_mods(MOD_BIT(KC_RGUI));
+        register_mods(MOD_BIT(KC_RALT));
+        register_mods(MOD_BIT(KC_RCTRL));
       }
       else {
-        layer_off(_LOWER);
-        if (timer_elapsed(space_cadet_layer_timer[1]) < TAPPING_TERM) {
-          register_mods(MOD_BIT(KC_LSHIFT));
+        unregister_mods(MOD_BIT(KC_RCTRL));
+        unregister_mods(MOD_BIT(KC_RALT));
+        unregister_mods(MOD_BIT(KC_RGUI));
+        if (timer_elapsed(space_cadet_hyper_timer[1]) < TAPPING_TERM) {
           register_code(KC_DOT);
           unregister_code(KC_DOT);
-          unregister_mods(MOD_BIT(KC_LSHIFT));
         }
+        unregister_mods(MOD_BIT(KC_RSHIFT));
       }
       return false;
     }
