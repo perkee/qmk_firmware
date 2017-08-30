@@ -50,8 +50,8 @@ enum custom_keycodes {
 #define KC_CMD8 LGUI(KC_8)
 #define KC_CMD9 LGUI(KC_9)
 
-#define MOUSEKEY_WHEEL_MAX_SPEED   8
-#define MOUSEKEY_WHEEL_TIME_TO_MAX 1
+#define KC_LO_H LT(_LOWER, KC_H)
+#define KC_RS_G LT(_RAISE, KC_G)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -59,7 +59,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
      TAB , Q  , W  , E  , R  , T  ,      Y  , U  , I  , O  , P  , EQL,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-     LCDQ, A  , S  , D  , F  , G  ,      H  , J  , K  , L  ,SCLN,RC_ENT,
+     LCDQ, A  , S  , D  , F  ,RS_G,     LO_H, J  , K  , L  ,SCLN,RC_ENT,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
      LSPO, Z  , X  , C  , V  , B  ,      N  , M  ,COMM,DOT ,SLSH,RSPC,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
@@ -71,7 +71,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
      CAPW,UNDS, 7  , 8  , 9  , EQL,         ,    ,    ,    ,    ,RSET,
   //|----+----+----+----+----|----+    |----+----+----+----+----+----|
-     CAPP,MINS, 4  , 5  , 6  ,PLUS,     WH_R,WH_U,WH_D,WH_L,    ,    ,
+     CAPP,MINS, 4  , 5  , 6  ,PLUS,         ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----|----+    |----+----+----+----+----+----|
      MUTE,ASTR, 1  , 2  , 3  ,SLSH,         ,    ,    ,    ,    ,    ,
   //|----+----+----+----+----|----+    |----+----+----+----+----+----|
@@ -83,7 +83,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
          ,    ,CMD7,CMD8,CMD9,    ,     CIRC, AT ,HASH, DLR,PERC,BSLS,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-         ,CMD0,CMD4,CMD5,CMD6,    ,     LEFT,DOWN, UP ,RGHT,QUOT,PIPE,
+    CAPS,CMD0,CMD4,CMD5,CMD6,    ,     LEFT,DOWN, UP ,RGHT,QUOT,PIPE,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
          ,    ,CMD1,CMD2,CMD3,    ,     0   ,AMPR,ASTR,EXLM, GRV,TILD,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
