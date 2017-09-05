@@ -4,12 +4,11 @@
 
 extern keymap_config_t keymap_config;
 
-static uint16_t space_cadet_hyper_timer[2] = {0, 0};
-
 static bool option_interrupted[2] = {0, 0};
-static uint16_t space_cadet_option_timer[2] = {0, 0};
 
 static uint16_t space_cadet_control_timer = 0;
+
+static uint16_t space_cadet_timer[4] = { 0, 0, 0, 0 };
 
 #define _QWERTY 0
 #define _ARROWS 1
@@ -96,21 +95,32 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   )
 };
 
+void mod_type(uint16_t modcode, uint16_t keycode) {
+  register_mods(MOD_BIT(modcode));
+  register_code(keycode);
+  unregister_code(keycode);
+  unregister_mods(MOD_BIT(modcode));
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case KC_LHAO: {
       if (record->event.pressed) {
-        space_cadet_hyper_timer[0] = timer_read ();
-        register_mods(MOD_BIT(KC_LSHIFT));
-        register_mods(MOD_BIT(KC_LGUI));
-        register_mods(MOD_BIT(KC_LALT));
-        register_mods(MOD_BIT(KC_LCTRL));
+        space_cadet_timer[0] = timer_read();
+        register_mods(
+          MOD_BIT(KC_LSHIFT) |
+          MOD_BIT(KC_LGUI)   |
+          MOD_BIT(KC_LALT)   |
+          MOD_BIT(KC_LCTRL)
+        );
       }
       else {
-        unregister_mods(MOD_BIT(KC_LCTRL));
-        unregister_mods(MOD_BIT(KC_LALT));
-        unregister_mods(MOD_BIT(KC_LGUI));
-        if (timer_elapsed(space_cadet_hyper_timer[0]) < TAPPING_TERM) {
+        unregister_mods(
+          MOD_BIT(KC_LCTRL) |
+          MOD_BIT(KC_LALT)  |
+          MOD_BIT(KC_LGUI)
+        );
+        if (timer_elapsed(space_cadet_timer[0]) < TAPPING_TERM) {
           register_code(KC_COMMA);
           unregister_code(KC_COMMA);
         }
@@ -120,17 +130,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     }
     case KC_RHAC: {
       if (record->event.pressed) {
-        space_cadet_hyper_timer[1] = timer_read ();
-        register_mods(MOD_BIT(KC_RSHIFT));
-        register_mods(MOD_BIT(KC_RGUI));
-        register_mods(MOD_BIT(KC_RALT));
-        register_mods(MOD_BIT(KC_RCTRL));
+        space_cadet_timer[1] = timer_read();
+        register_mods(
+          MOD_BIT(KC_RSHIFT) |
+          MOD_BIT(KC_RGUI)   |
+          MOD_BIT(KC_RALT)   |
+          MOD_BIT(KC_RCTRL)
+        );
       }
       else {
-        unregister_mods(MOD_BIT(KC_RCTRL));
-        unregister_mods(MOD_BIT(KC_RALT));
-        unregister_mods(MOD_BIT(KC_RGUI));
-        if (timer_elapsed(space_cadet_hyper_timer[1]) < TAPPING_TERM) {
+        unregister_mods(
+          MOD_BIT(KC_RCTRL) |
+          MOD_BIT(KC_RALT)  |
+          MOD_BIT(KC_RGUI)
+        );
+        if (timer_elapsed(space_cadet_timer[1]) < TAPPING_TERM) {
           register_code(KC_DOT);
           unregister_code(KC_DOT);
         }
@@ -142,7 +156,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_LOBO: {
       if (record->event.pressed) {
         option_interrupted[0] = false;
-        space_cadet_option_timer[0] = timer_read ();
+        space_cadet_timer[2] = timer_read();
         register_mods(MOD_BIT(KC_LALT));
       }
       else {
@@ -153,11 +167,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             option_interrupted[1] = true;
           }
         #endif
-        if (!option_interrupted[0] && timer_elapsed(space_cadet_option_timer[0]) < TAPPING_TERM) {
-          register_mods(MOD_BIT(KC_LSHIFT));
-          register_code(KC_LBRACKET);
-          unregister_code(KC_LBRACKET);
-          unregister_mods(MOD_BIT(KC_LSHIFT));
+        if (!option_interrupted[0] && timer_elapsed(space_cadet_timer[2]) < TAPPING_TERM) {
+          mod_type(KC_LSHIFT, KC_LBRACKET);
         }
       }
       return false;
@@ -166,7 +177,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_ROBC: {
       if (record->event.pressed) {
         option_interrupted[1] = false;
-        space_cadet_option_timer[1] = timer_read ();
+        space_cadet_timer[3] = timer_read();
         register_mods(MOD_BIT(KC_RALT));
       }
       else {
@@ -177,11 +188,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             option_interrupted[1] = true;
           }
         #endif
-        if (!option_interrupted[1] && timer_elapsed(space_cadet_option_timer[1]) < TAPPING_TERM) {
-          register_mods(MOD_BIT(KC_RSFT));
-          register_code(KC_RBRACKET);
-          unregister_code(KC_RBRACKET);
-          unregister_mods(MOD_BIT(KC_RSFT));
+        if (!option_interrupted[1] && timer_elapsed(space_cadet_timer[3]) < TAPPING_TERM) {
+          mod_type(KC_RSFT, KC_RBRACKET);
         }
       }
       return false;
@@ -189,16 +197,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
     case KC_LCDQ: {
       if (record->event.pressed) {
-        space_cadet_control_timer = timer_read ();
+        space_cadet_control_timer = timer_read();
         register_mods(MOD_BIT(KC_LCTL));
       }
       else {
         unregister_mods(MOD_BIT(KC_LCTL));
         if (timer_elapsed(space_cadet_control_timer) < TAPPING_TERM) {
-          register_mods(MOD_BIT(KC_LSFT));
-          register_code(KC_QUOT);
-          unregister_code(KC_QUOT);
-          unregister_mods(MOD_BIT(KC_LSFT));
+          mod_type(KC_LSFT, KC_QUOT);
         }
       }
       return false;
