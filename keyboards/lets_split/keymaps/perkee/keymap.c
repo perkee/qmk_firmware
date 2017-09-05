@@ -12,8 +12,9 @@ static uint16_t space_cadet_option_timer[2] = {0, 0};
 static uint16_t space_cadet_control_timer = 0;
 
 #define _QWERTY 0
-#define _LOWER 1
-#define _RAISE 2
+#define _ARROWS 1
+#define _NUMPAD 2
+#define _SYMBOL 3
 
 enum custom_keycodes {
   KC_LHAO  // left hyper angle open <
@@ -37,19 +38,12 @@ enum custom_keycodes {
 #define KC_LCBS MT(MOD_LGUI, KC_BSPC) // left command backspace
 #define KC_RCSP MT(MOD_RGUI, KC_SPC)  // right command space
 
-#define KC_CMD0 LGUI(KC_0)
-#define KC_CMD1 LGUI(KC_1)
-#define KC_CMD2 LGUI(KC_2)
-#define KC_CMD3 LGUI(KC_3)
-#define KC_CMD4 LGUI(KC_4)
-#define KC_CMD5 LGUI(KC_5)
-#define KC_CMD6 LGUI(KC_6)
-#define KC_CMD7 LGUI(KC_7)
-#define KC_CMD8 LGUI(KC_8)
-#define KC_CMD9 LGUI(KC_9)
+#define KC_ARWF LT(_ARROWS, KC_F)
+#define KC_NUMD LT(_NUMPAD, KC_D)
+#define KC_SYMS LT(_SYMBOL, KC_S)
 
-#define KC_LO_J LT(_LOWER, KC_J)
-#define KC_RS_F LT(_RAISE, KC_F)
+#define KC_M0 M(0)
+#define KC_M1 M(1)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -57,7 +51,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
      TAB , Q  , W  , E  , R  , T  ,      Y  , U  , I  , O  , P  , EQL,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-     LCDQ, A  , S  , D  ,RS_F, G  ,      H  ,LO_J, K  , L  ,SCLN,RC_ENT,
+     LCDQ, A  ,SYMS,NUMD,ARWF, G  ,      H  , J  , K  , L  ,SCLN,RC_ENT,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
      LSPO, Z  , X  , C  , V  , B  ,      N  , M  ,COMM,DOT ,SLSH,RSPC,
   //|----+----+----+----+----+----|    |----+----+----+----+----+----|
@@ -65,27 +59,39 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //`----+----+----+----+----+----'    `----+----+----+----+----+----'
   ),
 
-  [_LOWER] = KC_KEYMAP(
+  [_ARROWS] = KC_KEYMAP(
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
-     CAPW,UNDS, 7  , 8  , 9  , EQL,         ,    ,    ,    ,    ,RSET,
-  //|----+----+----+----+----|----+    |----+----+----+----+----+----|
-     CAPP,MINS, 4  , 5  , 6  ,PLUS,         ,    ,    ,    ,    ,    ,
-  //|----+----+----+----+----|----+    |----+----+----+----+----+----|
-     MUTE,ASTR, 1  , 2  , 3  ,SLSH,         ,    ,    ,    ,    ,    ,
-  //|----+----+----+----+----|----+    |----+----+----+----+----+----|
-     VOLD,VOLU,TAB , 0  ,ENT ,    ,         ,    ,    ,    ,    ,
+         ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
+  //|----+----+----+----+----+----|    |----+----+----+----+----+----|
+     CAPS,    ,    ,    ,    ,    ,     LEFT,DOWN, UP ,RGHT,    ,    ,
+  //|----+----+----+----+----+----|    |----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
+  //|----+----+----+----+----+----|    |----+----+----+----+----+----|
+     RSET,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,
   //`----+----+----+----+----+----'    `----+----+----+----+----+----'
   ),
 
-  [_RAISE] = KC_KEYMAP(
+  [_NUMPAD] = KC_KEYMAP(
   //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
-         ,    ,    ,    ,    ,    ,     CIRC, AT ,HASH, DLR,PERC,BSLS,
-  //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-     CAPS,    ,    ,    ,    ,    ,     LEFT,DOWN, UP ,RGHT,QUOT,PIPE,
-  //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,     0   ,AMPR,ASTR,EXLM, GRV,TILD,
-  //|----+----+----+----+----+----|    |----+----+----+----+----+----|
-         ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,
+         ,    ,    ,    ,    ,    ,         , 7  , 8  , 9  ,PLUS,    ,
+  //|----+----+----+----+----|----+    |----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,     TAB , 4  , 5  , 6  ,MINS,    ,
+  //|----+----+----+----+----|----+    |----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,         , 1  , 2  , 3  ,ASTR, M0 ,
+  //|----+----+----+----+----|----+    |----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,         , 0  ,DOT ,ENT ,SLSH, M1
+  //`----+----+----+----+----+----'    `----+----+----+----+----+----'
+  ),
+
+  [_SYMBOL] = KC_KEYMAP(
+  //,----+----+----+----+----+----.    ,----+----+----+----+----+----.
+         ,    ,    ,    ,    ,    ,         ,AMPR,ASTR,BSLS,PIPE,CAPW,
+  //|----+----+----+----+----|----+    |----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,     QUOT,DLR ,PERC,CIRC,UNDS,CAPP,
+  //|----+----+----+----+----|----+    |----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,         ,EXLM, AT ,HASH,    ,    ,
+  //|----+----+----+----+----|----+    |----+----+----+----+----+----|
+         ,    ,    ,    ,    ,    ,         ,    ,    ,MUTE,VOLD,VOLU
   //`----+----+----+----+----+----'    `----+----+----+----+----+----'
   )
 };
@@ -200,3 +206,40 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   }
   return true;
 }
+
+const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt) {
+  if (record->event.pressed) {
+    switch(id) {
+      case 0:
+        SEND_STRING("argument from popularity much");
+        return false;
+      case 1:
+        SEND_STRING(
+          "What the fuck did you just fucking say about me, you little bitch?"
+          " I'll have you know I graduated top of my class in the Navy Seals, and"
+          " I've been involved in secret raids on Al-Quaeda, and I have over 300"
+          " confirmed kills. I am trained in gorilla warfare and I'm the top sniper"
+          " in the entire US armed forces. You are nothing to me but just another"
+          " target. I will wipe you out with precision the likes of which has"
+          " never been seen before on this Earth, mark my words. You think you"
+          " can get away with saying shit to me over the Internet? Think again,"
+          " fucker. As we speak I am contacting my network of spies across the"
+          " USA and your IP is being traced right now so you better prepare for"
+          " the storm, maggot. The storm that wipes out the pathetic little thing"
+          " you call your life. You're fucking dead, kid. I can be anywhere,"
+          " anytime, and I can kill you in over seven hundred ways, and that's"
+          " just with my bare hands. Not only am I extensively trained in unarmed"
+          " combat, but I have access to the entire arsenal of the United States"
+          " Marine Corps and I will use it to its full extent to wipe your ass"
+          " off the face of the continent, you little shit. If only you could"
+          " have known what unholy retribution your little \"clever\" comment was"
+          " about to bring down upon you, maybe you would have held your tongue."
+          " You didn't, and now you're paying the price, you goddamn idiot."
+          " I will shit all over you and you will drown in it."
+          " You're fucking dead, kiddo."
+        );
+        return false;
+    }
+  }
+  return MACRO_NONE;
+};
