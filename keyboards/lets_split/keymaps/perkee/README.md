@@ -25,43 +25,77 @@ Perkee's Let's Split Layout
 
 Pretty graphical layout of keyboard [here](http://www.keyboard-layout-editor.com/#/gists/6f49fdce9c9dfb3b8bbb6c55a300b318)
 
-## Layouts
+## Main Layout
+Bottom right two keys gave me terrible forearm pain so left them unmapped for a while.
+Experimenting with having them for jumping around my text editor.
+Jump is Shift Enter for [Jumpy](https://atom.io/packages/jumpy),
+F2 lets you set and jump to bookmarks in a file but I don't use it a ton.
 
-### QWERTY
+I am not loving CMSP very much as I often end up Cmd-A selecting everything in a window
+and overwriting it. Not a huge hassle but annoying. Might just make left command work.
 ```
-,----+----+----+----+----+----.    ,----+----+----+----+----+----.
-|TAB | Q  | W  | E  | R  | T  |    | Y  | U  | I  | O  | P  | =  |
-|----+----+----+----+----+----|    |----+----+----+----+----+----|
-|CTL"| A  | S  | D  | F  | G  |    | H  | J  | K  | L  | ;  | X2 |
-|----+----+----+----+----+----|    |----+----+----+----+----+----|
-|SFT(| Z  | X  | C  | V  | B  |    | N  | M  | ,  | .  | /  |SFT)|
-|----+----+----+----+----+----|    |----+----+----+----+----+----|
-|  ` |ESC |HYP[|LOW<|OPT{| X0 |    | X1 |OPT}|RAS>|HYP>| -  | '  |
-`----+----+----+----+----+----'    `----+----+----+----+----+----'
+┌────┬────┬────┬────┬────┬────┐  ┌────┬────┬────┬────┬────┬────┐
+│TAB │ Q  │ W  │ E  │ R  │ T  │  │ Y  │ U  │ I  │ O  │ P  │ =  │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│CTL"│ A  │SYMS│NUMD│ARWF│ G  │  │ H  │ J  │ K  │ L  │ ;  │CTL'│
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│SFT(│ Z  │ X  │ C  │ V  │ B  │  │ N  │ M  │ ,  │ .  │ /  │SFT)│
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│ `  │ ESC│ [  │HYP<│OPT{│CMBS│  │CMSP│OPT}│HYP>│ ]  │ F2 │JUMP│
+└────┴────┴────┴────┴────┴────┘  └────┴────┴────┴────┴────┴────┘
 ```
+All modifiers are hold/tap so:
+* CMBS: hold for left command, tap for backspace
+* CMSP: hold for right command, tap for space
+* CTL": hold for left control, tap for double quote "
+* CTL': hold for right control, tap for single quote '
+* SFT(: hold for left shift, tap for opening paren (
+* SFT): hold for right shift, tap for closing paren )
+* OPT{: hold for left option, tap for opening brace {
+* OPT}: hold for right option, tap for closing brace }
+* HYP<: hold for left hyper, tap for opening angle <
+* HYP>: hold for right hyper, tap for closing angle >
 
-### Raise
-```
-|----+----+----+----+----+----.    ,----+----+----+----+----+----.
-|    |    |CMD7|CMD8|CMD9|    |    | ^  | @  | #  | $  | %  | \  |
-|----+----+----+----+----+----|    |----+----+----+----+----+----|
-|    |CMD0|CMD4|CMD5|CMD6|    |    |LEFT|DOWN| UP |RGHT| '  | |  |
-|----+----+----+----+----+----|    |----+----+----+----+----+----|
-|    |    |CMD1|CMD2|CMD3|    |    |  0 | &  | *  | !  | `  | ~  |
-|----+----+----+----+----+----|    |----+----+----+----+----+----|
-|    |    |CMD0|    |    |    |    |    |    |    |    |    |    |
-`----+----+----+----+----+----'    `----+----+----+----+----+----'
-```
+## Arrows
+Very common for me to move down an autocomplete dropdown and hit enter to select,
+so put it here.
 
-### Lower
 ```
-|----+----+----+----+----+----.    ,----+----+----+----+----+----.
-|CAPW| _  | 7  | 8  | 9  | =  |    |    |    |    |    |    |RSET|
-|----+----+----+----+----+----|    |----+----+----+----+----+----|
-|CAPP| -  | 4  | 5  | 6  | +  |    |WH L|WH D|WH U|WH R|    |    |
-|----+----+----+----+----+----|    |----+----+----+----+----+----|
-|MUTE| *  | 1  | 2  | 3  | /  |    |    |    |    |    |    |    |
-|----+----+----+----+----+----|    |----+----+----+----+----+----|
-|VOLD|VOLU| TAB| 0  | ENT|    |    |    |    |    |    |    |    |
-`----+----+----+----+----+----'    `----+----+----+----+----+----'
+┌────┬────┬────┬────┬────┬────┐  ┌────┬────┬────┬────┬────┬────┐
+│    │    │    │    │    │    │  │    │    │    │    │    │    │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│CAPS│    │    │    │    │    │  │LEFT│DOWN│ UP │RGHT│    │    │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │    │    │    │    │    │  │    │    │    │    │    │    │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│RSET│    │    │    │    │    │  │ENT │    │    │    │    │    │
+└────┴────┴────┴────┴────┴────┘  └────┴────┴────┴────┴────┴────┘
+```
+### Numbers
+In keeping with how sometimes dash acts like a space
+```
+┌────┬────┬────┬────┬────┬────┐  ┌────┬────┬────┬────┬────┬────┐
+│    │    │    │    │    │    │  │    │ 7  │ 8  │ 9  │ +  │    │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │    │    │    │    │    │  │    │ 4  │ 5  │ 6  │ -  │    │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │    │    │    │    │    │  │    │ 1  │ 2  │ 3  │ *  │ M0 │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │    │    │    │    │    │  │ -  │ 0  │ .  │ENT │ /  │ M1 │
+└────┴────┴────┴────┴────┴────┘  └────┴────┴────┴────┴────┴────┘
+```
+### Symbols
+Again Underscore is space sometimes so that's why it's here.
+Rarely use volume controls.
+CAPP is capture part of the screen and CAPW is capture the whole screen.
+```
+┌────┬────┬────┬────┬────┬────┐  ┌────┬────┬────┬────┬────┬────┐
+│    │    │    │    │    │    │  │    │ &  │ *  │ \  │ |  │CAPW│
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │    │    │    │    │    │  │ '  │ $  │ %  │ ^  │ _  │CAPP│
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │    │    │    │    │    │  │ `  │ !  │ @  │ #  │    │    │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │    │    │    │    │    │  │ _  │ ~  │    │MUTE│VOLD│VOLU│
+└────┴────┴────┴────┴────┴────┘  └────┴────┴────┴────┴────┴────┘
 ```

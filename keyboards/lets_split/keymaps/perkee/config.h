@@ -14,7 +14,7 @@
 // #define _MASTER_RIGHT
 // #define EE_HANDS
 
-#define TAPPING_TERM 150
+#define TAPPING_TERM 250
 
 #undef RGBLED_NUM
 #define RGBLIGHT_ANIMATIONS
