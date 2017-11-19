@@ -4,16 +4,18 @@
 
 extern keymap_config_t keymap_config;
 
-static bool option_interrupted[2] = {0, 0};
+static bool option_interrupted[2] = { 0, 0 };
 
 static uint16_t space_cadet_control_timer = 0;
 
-static uint16_t space_cadet_timer[4] = { 0, 0, 0, 0 };
+static uint16_t space_cadet_timer[5] = { 0, 0, 0, 0, 0 };
 
 #define _QWERTY 0
-#define _ARROWS 1
-#define _NUMPAD 2
-#define _SYMBOL 3
+#define _NULLS  1
+#define _ARROWS 2
+#define _NUMPAD 3
+#define _SYMBOL 4
+#define _RGB    5
 
 enum custom_keycodes {
   KC_LHAO  // left hyper angle open <
@@ -23,10 +25,12 @@ enum custom_keycodes {
   KC_LOBO, // left option brace open {
   KC_ROBC, // right option brace close }
 
-  KC_LCDQ // left control double quote "
+  KC_LCDQ, // left control double quote "
+  KC_RGSP  // right GUI space
 };
 
 #define KC_ KC_TRNS
+#define RGB_ KC_TRNS
 
 #define KC_CAPW LGUI(LSFT(KC_3))        // Capture whole screen
 #define KC_CAPP LGUI(LSFT(KC_4))        // Capture portion of screen
@@ -38,12 +42,12 @@ enum custom_keycodes {
 #define KC_LS_G MT(MOD_LSFT, KC_G)
 #define KC_RS_H MT(MOD_RSFT, KC_H)
 
-#define KC_LCBS MT(MOD_LGUI, KC_BSPC) // left command backspace
-#define KC_RCSP MT(MOD_RGUI, KC_SPC)  // right command space
+#define KC_LGBS MT(MOD_LGUI, KC_BSPC) // left command (GUI) backspace
 
 #define KC_ARWF LT(_ARROWS, KC_F)
 #define KC_NUMD LT(_NUMPAD, KC_D)
 #define KC_SYMS LT(_SYMBOL, KC_S)
+#define KC_RGBG LT(_RGB, KC_GRV)
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
@@ -55,7 +59,31 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
      LSPO, Z  , X  , C  , V  , B  ,      N  , M  ,COMM,DOT ,SLSH,RSPC,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
-     GRV , ESC,LBRC,LHAO,LOBO,LCBS,     RCSP,ROBC,RHAC,RBRC, F2 ,JUMP
+     RGBG, ESC,LBRC,LHAO,LOBO,LGBS,     RGSP,ROBC,RHAC,RBRC, F2 ,JUMP
+  //└────┴────┴────┴────┴────┴────┘    └────┴────┴────┴────┴────┴────┘
+  ),
+
+  [_NULLS] = KC_KEYMAP(
+  //┌────┬────┬────┬────┬────┬────┐    ┌────┬────┬────┬────┬────┬────┐
+         ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
+  //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
+         , NO ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
+  //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
+         ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
+  //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
+         ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,
+  //└────┴────┴────┴────┴────┴────┘    └────┴────┴────┴────┴────┴────┘
+  ),
+
+  [_RGB] = RGB_KEYMAP(
+  //┌────┬────┬────┬────┬────┬────┐    ┌────┬────┬────┬────┬────┬────┐
+         ,SMOD, HUI, SAI, VAI,    ,         ,    ,    ,    ,    ,    ,
+  //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
+         , MOD, HUD, SAD, VAD,    ,         ,    ,    ,    ,    ,    ,
+  //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
+         ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
+  //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
+         , TOG,    ,    ,    , M_P,         ,    ,    ,    ,    ,
   //└────┴────┴────┴────┴────┴────┘    └────┴────┴────┴────┴────┴────┘
   ),
 
@@ -204,6 +232,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         unregister_mods(MOD_BIT(KC_LCTL));
         if (timer_elapsed(space_cadet_control_timer) < TAPPING_TERM) {
           mod_type(KC_LSFT, KC_QUOT);
+        }
+      }
+      return false;
+    }
+    case KC_RGSP: {
+      if (record->event.pressed) {
+        space_cadet_timer[4] = timer_read();
+        register_mods(MOD_BIT(KC_RGUI));
+        layer_on(_NULLS);
+      }
+      else {
+        unregister_mods(MOD_BIT(KC_RGUI));
+        layer_off(_NULLS);
+        if (timer_elapsed(space_cadet_timer[4]) < TAPPING_TERM) {
+          register_code(KC_SPACE);
+          unregister_code(KC_SPACE);
         }
       }
       return false;

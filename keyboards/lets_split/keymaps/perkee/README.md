@@ -41,12 +41,12 @@ and overwriting it. Not a huge hassle but annoying. Might just make left command
 ├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
 │SFT(│ Z  │ X  │ C  │ V  │ B  │  │ N  │ M  │ ,  │ .  │ /  │SFT)│
 ├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
-│ `  │ ESC│ [  │HYP<│OPT{│CMBS│  │CMSP│OPT}│HYP>│ ]  │ F2 │JUMP│
+│RGB`│ ESC│ [  │HYP<│OPT{│CMBS│  │CMSP│OPT}│HYP>│ ]  │ F2 │JUMP│
 └────┴────┴────┴────┴────┴────┘  └────┴────┴────┴────┴────┴────┘
 ```
 All modifiers are hold/tap so:
 * CMBS: hold for left command, tap for backspace
-* CMSP: hold for right command, tap for space
+* CMSP: hold for right command, tap for space (nulls A so you don't hit Cmd-A when you mean to type a space)
 * CTL": hold for left control, tap for double quote "
 * CTL': hold for right control, tap for single quote '
 * SFT(: hold for left shift, tap for opening paren (
@@ -69,6 +69,19 @@ so put it here.
 │    │    │    │    │    │    │  │    │    │    │    │    │    │
 ├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
 │RSET│    │    │    │    │    │  │ENT │    │    │    │    │    │
+└────┴────┴────┴────┴────┴────┘  └────┴────┴────┴────┴────┴────┘
+```
+
+## RGB
+```
+┌────┬────┬────┬────┬────┬────┐  ┌────┬────┬────┬────┬────┬────┐
+│    │    │SMOD│ HUI│ SAI│ VAI│  │    │    │    │    │    │    │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │    │MODE│ HUD│ SAD│ VAD│  │    │    │    │    │    │    │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │    │    │    │    │    │  │    │    │    │    │    │    │
+├────┼────┼────┼────┼────┼────┤  ├────┼────┼────┼────┼────┼────┤
+│    │TOGL│    │    │    │PLN │  │    │    │    │    │    │    │
 └────┴────┴────┴────┴────┴────┘  └────┴────┴────┴────┴────┴────┘
 ```
 ### Numbers
