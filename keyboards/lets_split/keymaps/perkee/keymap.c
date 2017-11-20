@@ -10,8 +10,10 @@ static uint16_t space_cadet_control_timer = 0;
 
 static uint16_t space_cadet_timer[5] = { 0, 0, 0, 0, 0 };
 
+uint8_t suspended_mods = 0;
+
 #define _QWERTY 0
-#define _NULLS  1
+#define _NOMODS 1
 #define _ARROWS 2
 #define _NUMPAD 3
 #define _SYMBOL 4
@@ -26,7 +28,9 @@ enum custom_keycodes {
   KC_ROBC, // right option brace close }
 
   KC_LCDQ, // left control double quote "
-  KC_RGSP  // right GUI space
+  KC_RGSP,  // right GUI space
+
+  NOMOD_A // A with mods suspended
 };
 
 #define KC_ KC_TRNS
@@ -63,11 +67,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //└────┴────┴────┴────┴────┴────┘    └────┴────┴────┴────┴────┴────┘
   ),
 
-  [_NULLS] = KC_KEYMAP(
+  [_NOMODS] = NOMOD_KEYMAP(
   //┌────┬────┬────┬────┬────┬────┐    ┌────┬────┬────┬────┬────┬────┐
          ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
-         , NO ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
+         , A  ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
          ,    ,    ,    ,    ,    ,         ,    ,    ,    ,    ,    ,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
@@ -240,11 +244,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         space_cadet_timer[4] = timer_read();
         register_mods(MOD_BIT(KC_RGUI));
-        layer_on(_NULLS);
+        layer_on(_NOMODS);
       }
       else {
         unregister_mods(MOD_BIT(KC_RGUI));
-        layer_off(_NULLS);
+        layer_off(_NOMODS);
         if (timer_elapsed(space_cadet_timer[4]) < TAPPING_TERM) {
           register_code(KC_SPACE);
           unregister_code(KC_SPACE);
@@ -252,6 +256,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
     }
+    NOMOD(A)
   }
   return true;
 }
