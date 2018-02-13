@@ -36,15 +36,15 @@ enum custom_keycodes {
 #define KC_ KC_TRNS
 #define RGB_ KC_TRNS
 
-#define KC_CAPW LGUI(LSFT(KC_3))        // Capture whole screen
-#define KC_CAPP LGUI(LSFT(KC_4))        // Capture portion of screen
-#define KC_JUMP LSFT(KC_ENT)        // Capture portion of screen
+#define KC_CAPC LGUI(LCTL(LSFT(KC_4)))        // Capture portion of the screen to pasteboard
+#define KC_CAPF LGUI(LSFT(KC_4))        // Capture portion of screen to file
+#define KC_JUMP LSFT(KC_ENT)        // Jump in Atom using Jumpy https://atom.io/packages/jumpy
 
 #define KC_RSET RESET
 #define KC_RC_ENT MT(MOD_RCTL, KC_ENT)
 #define KC_RCQU MT(MOD_RCTL, KC_QUOT)
-#define KC_LS_G MT(MOD_LSFT, KC_G)
-#define KC_RS_H MT(MOD_RSFT, KC_H)
+#define KC_LS_TAB MT(MOD_LSFT, KC_TAB)
+#define KC_GENT MT(MOD_LGUI, KC_ENT)
 
 #define KC_LGBS MT(MOD_LGUI, KC_BSPC) // left command (GUI) backspace
 
@@ -63,7 +63,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
      LSPO, Z  , X  , C  , V  , B  ,      N  , M  ,COMM,DOT ,SLSH,RSPC,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
-     RGBG, ESC,LBRC,LHAO,LOBO,LGBS,     RGSP,ROBC,RHAC,RBRC, F2 ,JUMP
+     RGBG, ESC,LBRC,LHAO,LOBO,BSPC,    SPACE,ROBC,RHAC,RBRC,GENT,LS_TAB
   //└────┴────┴────┴────┴────┴────┘    └────┴────┴────┴────┴────┴────┘
   ),
 
@@ -107,7 +107,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //┌────┬────┬────┬────┬────┬────┐    ┌────┬────┬────┬────┬────┬────┐
          ,    ,    ,    ,    ,    ,         , 7  , 8  , 9  ,PLUS,    ,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
-         ,    ,    ,    ,    ,    ,         , 4  , 5  , 6  ,MINS,    ,
+         ,    ,    ,    ,    ,    ,         , 4  , 5  , 6  ,COLN,    ,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
          ,    ,    ,    ,    ,    ,         , 1  , 2  , 3  ,ASTR,    ,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
@@ -117,9 +117,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_SYMBOL] = KC_KEYMAP(
   //┌────┬────┬────┬────┬────┬────┐    ┌────┬────┬────┬────┬────┬────┐
-         ,    ,    ,    ,    ,    ,         ,AMPR,ASTR,BSLS,PIPE,CAPW,
+         ,    ,    ,    ,    ,    ,         ,AMPR,ASTR,BSLS,PIPE,CAPC,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
-         ,    ,    ,    ,    ,    ,     QUOT,DLR ,PERC,CIRC,UNDS,CAPP,
+         ,    ,    ,    ,    ,    ,     QUOT,DLR ,PERC,CIRC,PIPE,CAPF,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
          ,    ,    ,    ,    ,    ,     GRV ,EXLM, AT ,HASH,    ,    ,
   //├────┼────┼────┼────┼────┼────┤    ├────┼────┼────┼────┼────┼────┤
