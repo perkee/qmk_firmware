@@ -8,6 +8,10 @@ Featuring:
 
 # Knob installation
 
+I've used pins 4 & 5 (PD4 & PC6) to read digital value from the rotary encoder as they because Let's Split doesn't use them (Split keyboards FTW! Moar precious free pins!)
+
+**Note:** Seems like pin PD4 has an ADC (ADC8) attached. Might be better to use this one pin and attach both encoder legs to it via 4.7 kOhm & 10 kOhm resistors!
+
 See `knob.c` for implementation && usage info.
 
 - Left image: without pull-up (this is the variant that I implemented - most AVRs have internal pull-up resistors.)
