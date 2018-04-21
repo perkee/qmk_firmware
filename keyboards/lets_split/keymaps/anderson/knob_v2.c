@@ -1,4 +1,4 @@
-#include "knob.h"
+#include "knob_v2.h"
 
 bool knob_prev_a = false;
 int8_t knob_dir = 0;
