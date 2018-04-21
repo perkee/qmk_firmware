@@ -3,12 +3,14 @@
 #include "eeconfig.h"
 #include "pincontrol.h"
 #include "pointing_device.h"
+#include "avr/interrupt.h"
 
 #include "solid.h"
 #include "dmc12.h"
 #include "rainbow.h"
 
-#include "knob.h"
+/*#include "knob.h"*/
+#include "knob_v2.h"
 
 extern keymap_config_t keymap_config;
 
