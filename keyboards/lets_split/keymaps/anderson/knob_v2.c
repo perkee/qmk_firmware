@@ -19,11 +19,9 @@ void knob_init(void) {
     // Set pin mode & pull-up.
     DDRD &= ~(0UL << PD1);
     PORTD |= (1UL << PD1);
-    /*EICRA |= (1 << ISC01);    // set INT0 to trigger on ANY logic change*/
-    /*EIMSK |= (1 << INT1);     // Turns on INT1*/
 
     // INT:    33221100
-    EICRA |= 0b00000100;
+    EICRA |= 0b00000100;  // 0b01 - any edge
     // INT:     6  3210
     EIMSK |= 0b00000010;
 }
