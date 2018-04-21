@@ -59,7 +59,7 @@ ISR(INT1_vect) {
         }
         if (abs(knob_score) > 1) {
             // A changes twice and both times the direction matched
-            dir = (knob_score > 0) ? 1 : -1;
+            dir += (knob_score > 0) ? 1 : -1;
             knob_score = 0;
         }
         if (a && b) {
@@ -73,7 +73,7 @@ ISR(INT1_vect) {
 
 int8_t knob_read(void) {
     // Determine if the knob was rotated since last call.
-    // Return 0 if not, -1 or 1 if yes.
+    // Return 0 if not, non-zero if N rotations occured.
     // Call this as often as possible (likely from within matrix_scan_*)
     int dir = last_dir;
     last_dir = 0;

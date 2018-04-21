@@ -202,7 +202,7 @@ void matrix_scan_user(void) {
     }
 
     int8_t dir = knob_read();
-    if (dir > 0) {
+    while (dir > 0) {
         // CCW
         if (layer_state_is(_RAISE)) {
             register_code(KC_VOLD);
@@ -215,7 +215,9 @@ void matrix_scan_user(void) {
             report.v += 2;
             pointing_device_set_report(report);
         }
-    } else if (dir < 0) {
+        dir--;
+    }
+    while (dir < 0) {
         // CW
         if (layer_state_is(_RAISE)) {
             register_code(KC_VOLU);
@@ -228,6 +230,7 @@ void matrix_scan_user(void) {
             report.v -= 2;
             pointing_device_set_report(report);
         }
+        dir++;
     }
 }
 
