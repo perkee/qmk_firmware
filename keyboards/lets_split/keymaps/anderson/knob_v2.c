@@ -33,24 +33,26 @@ ISR(INT1_vect) {
     bool a = PIND & (1 << PD1);
 
     if (knob_prev_a != a) {
-        // 'a' has changed
+        // "A" channel has REALLY changed.
         knob_prev_a = a;
         bool b = PINC & (1 << PC6);
         if (a == b) {
-            // Halfway through CCW rotation
+            // Halfway through CCW rotation (A == B)
             //
-            //         +---YOU ARE HERE
-            //         |
-            //         v
+            //         +---YOU ARE HERE (A=1, B=1)
+            //         |     +---OR HERE (A=0, B=0)
+            //         |     |
+            //         v     v
             // A: _____/^^^^^\__
             // B: __/^^^^^\_____
             knob_dir++;
         } else {
-            // Halfway through CW rotation
+            // Halfway through CW rotation (A != B)
             //
-            //         +---YOU ARE HERE
-            //         |
-            //         v
+            //         +---YOU ARE HERE (A=1, B=0)
+            //         |     +---OR HERE (A=0, B=1)
+            //         |     |
+            //         v     v
             // A: _____/^^^^^\_____
             // B: ________/^^^^^\__
             knob_dir--;
