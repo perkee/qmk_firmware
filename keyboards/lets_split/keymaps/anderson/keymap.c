@@ -208,8 +208,8 @@ void matrix_scan_user(void) {
             register_code(KC_VOLD);
             unregister_code(KC_VOLD);
         } else if (layer_state_is(_LOWER)) {
-            register_code(KC_RIGHT);
-            unregister_code(KC_RIGHT);
+            register_code(KC_LEFT);
+            unregister_code(KC_LEFT);
         } else {
             report_mouse_t report = pointing_device_get_report();
             report.v += 2;
@@ -223,8 +223,8 @@ void matrix_scan_user(void) {
             register_code(KC_VOLU);
             unregister_code(KC_VOLU);
         } else if (layer_state_is(_LOWER)) {
-            register_code(KC_LEFT);
-            unregister_code(KC_LEFT);
+            register_code(KC_RIGHT);
+            unregister_code(KC_RIGHT);
         } else {
             report_mouse_t report = pointing_device_get_report();
             report.v -= 2;

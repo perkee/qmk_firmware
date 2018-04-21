@@ -1,8 +1,7 @@
 #include "knob.h"
 
 bool knob_prev_a = false;
-int8_t knob_score = 0;
-int8_t last_dir = 0;
+int8_t knob_dir = 0;
 
 void knob_init(void) {
     // I use pins D1 (ISR1) & C6 for a knob.
@@ -32,7 +31,6 @@ void knob_init(void) {
 ISR(INT1_vect) {
     // Pin D2 (PD1)
     bool a = PIND & (1 << PD1);
-    int8_t dir = 0;
 
     if (knob_prev_a != a) {
         // 'a' has changed
@@ -46,7 +44,7 @@ ISR(INT1_vect) {
             //         v
             // A: _____/^^^^^\__
             // B: __/^^^^^\_____
-            knob_score++;
+            knob_dir++;
         } else {
             // Halfway through CW rotation
             //
@@ -55,28 +53,17 @@ ISR(INT1_vect) {
             //         v
             // A: _____/^^^^^\_____
             // B: ________/^^^^^\__
-            knob_score--;
-        }
-        if (abs(knob_score) > 1) {
-            // A changes twice and both times the direction matched
-            dir += (knob_score > 0) ? 1 : -1;
-            knob_score = 0;
-        }
-        if (a && b) {
-            // Keep score & knob pins in sync.
-            knob_score = 0;
+            knob_dir--;
         }
     }
-
-    last_dir = dir;
 }
 
 int8_t knob_read(void) {
     // Determine if the knob was rotated since last call.
     // Return 0 if not, non-zero if N rotations occured.
     // Call this as often as possible (likely from within matrix_scan_*)
-    int dir = last_dir;
-    last_dir = 0;
+    int dir = knob_dir;
+    knob_dir = 0;
     return dir;
 }
 

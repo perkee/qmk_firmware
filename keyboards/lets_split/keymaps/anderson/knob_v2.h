@@ -6,6 +6,5 @@ void knob_init(void);
 int8_t knob_read(void);
 
 bool knob_prev_a;
-int8_t knob_score;
-int8_t last_dir;
+int8_t knob_dir;
 
