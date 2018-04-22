@@ -1,7 +1,7 @@
 #include "knob_v2.h"
 
 bool knob_prev_a = false;
-int8_t knob_dir = 0;
+knob_report_t knob_report = {.dir = 0, .phase = 0};
 
 void knob_init(void) {
     // I use pins D1 (ISR1) & C6 for a knob.
@@ -32,6 +32,7 @@ ISR(INT1_vect) {
 
     if (knob_prev_a != a) {
         // "A" channel has REALLY changed.
+        knob_report.phase = a;
         knob_prev_a = a;
         bool b = PINC & (1 << PC6);
         if (a == b) {
@@ -43,7 +44,7 @@ ISR(INT1_vect) {
             //         v     v
             // A: _____/^^^^^\__
             // B: __/^^^^^\_____
-            knob_dir++;
+            knob_report.dir++;
         } else {
             // Halfway through CW rotation (A != B)
             //
@@ -53,17 +54,19 @@ ISR(INT1_vect) {
             //         v     v
             // A: _____/^^^^^\_____
             // B: ________/^^^^^\__
-            knob_dir--;
+            knob_report.dir--;
         }
     }
 }
 
-int8_t knob_read(void) {
+knob_report_t knob_report_read(void) {
     // Determine if the knob was rotated since last call.
     // Return 0 if not, non-zero if N rotations occured.
     // Call this as often as possible (likely from within matrix_scan_*)
-    int dir = knob_dir;
-    knob_dir = 0;
-    return dir;
+    return knob_report;
+}
+
+void knob_report_reset(void) {
+    knob_report = (knob_report_t){.dir = 0, .phase = 0};
 }
 

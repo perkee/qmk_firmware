@@ -76,7 +76,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     ┏━━━━━┳━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┓      ┏━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┳━━━━━┓
     ┃  ~  ┃PREV |PLAY |NEXT |     |     ┃      ┃     | ^^^ |  ^  | vvv |  ~  ┃ DEL ┃
     ┣━━━━━╉-----+-----+-----+-----+-----┫      ┣-----+-----+-----+-----+-----╊━━━━━┫
-    ┃     ┃     |VOL -|VOL +|     |     ┃      ┃HOME | <-- |  v  | --> |  `  ┃  \  ┃
+    ┃     ┃     |     |     |     |     ┃      ┃HOME | <-- |  v  | --> |  `  ┃  \  ┃
     ┣━━━━━╉-----+-----+-----+-----+-----┫      ┣-----+-----+-----+-----+-----╊━━━━━┫
     ┃     ┃     |     |     |     |     ┃      ┃ END |     |  [  |  ]  |  (  ┃  )  ┃
     ┣━━━━━╉-----+-----+-----+-----┏━━━━━┫      ┣━━━━━┓-----+-----+-----+-----╊━━━━━┫
@@ -85,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  */
 [_LOWER] = LAYOUT( \
     KC_TILD, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______,          _______, KC_PGUP, KC_UP,   KC_PGDN, KC_TILD, KC_DEL,  \
-    _______, _______, KC_VOLD, KC_VOLU, _______, _______,          KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT,KC_GRV,  KC_BSLS, \
+    _______, _______, _______, _______, _______, _______,          KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT,KC_GRV,  KC_BSLS, \
     _______, _______, _______, _______, _______, _______,          KC_END,  _______, KC_LBRC, KC_RBRC, LSFT(KC_9),LSFT(KC_0),\
     _______, _______, _______, _______, _______, _______,          _______, _______, KC_LCBR, KC_RCBR, KC_MINS, KC_EQUAL \
 ),
@@ -201,36 +201,39 @@ void matrix_scan_user(void) {
             break;
     }
 
-    int8_t dir = knob_read();
-    while (dir > 0) {
-        // CCW
-        if (layer_state_is(_RAISE)) {
-            register_code(KC_VOLD);
-            unregister_code(KC_VOLD);
-        } else if (layer_state_is(_LOWER)) {
-            register_code(KC_LEFT);
-            unregister_code(KC_LEFT);
-        } else {
-            report_mouse_t report = pointing_device_get_report();
-            report.v += 2;
-            pointing_device_set_report(report);
+    knob_report_t knob_report = knob_report_read();
+    knob_report_reset();
+    if (knob_report.phase) {
+        while (knob_report.dir > 0) {
+            // CCW
+            if (layer_state_is(_RAISE)) {
+                register_code(KC_VOLD);
+                unregister_code(KC_VOLD);
+            } else if (layer_state_is(_LOWER)) {
+                register_code(KC_LEFT);
+                unregister_code(KC_LEFT);
+            } else {
+                report_mouse_t report = pointing_device_get_report();
+                report.v += 2;
+                pointing_device_set_report(report);
+            }
+            knob_report.dir--;
         }
-        dir--;
-    }
-    while (dir < 0) {
-        // CW
-        if (layer_state_is(_RAISE)) {
-            register_code(KC_VOLU);
-            unregister_code(KC_VOLU);
-        } else if (layer_state_is(_LOWER)) {
-            register_code(KC_RIGHT);
-            unregister_code(KC_RIGHT);
-        } else {
-            report_mouse_t report = pointing_device_get_report();
-            report.v -= 2;
-            pointing_device_set_report(report);
+        while (knob_report.dir < 0) {
+            // CW
+            if (layer_state_is(_RAISE)) {
+                register_code(KC_VOLU);
+                unregister_code(KC_VOLU);
+            } else if (layer_state_is(_LOWER)) {
+                register_code(KC_RIGHT);
+                unregister_code(KC_RIGHT);
+            } else {
+                report_mouse_t report = pointing_device_get_report();
+                report.v -= 2;
+                pointing_device_set_report(report);
+            }
+            knob_report.dir++;
         }
-        dir++;
     }
 }
 
