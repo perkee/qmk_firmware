@@ -185,7 +185,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_init_user(void) {
     /*solid_start(0xFF1177);*/
     rainbow_start();
+#ifdef KNOB_ENABLE
     knob_init();
+#endif
 }
 
 void matrix_scan_user(void) {
@@ -201,6 +203,7 @@ void matrix_scan_user(void) {
             break;
     }
 
+#ifdef KNOB_ENABLE
     knob_report_t knob_report = knob_report_read();
     knob_report_reset();
     if (knob_report.phase) {
@@ -214,7 +217,7 @@ void matrix_scan_user(void) {
                 unregister_code(KC_LEFT);
             } else {
                 report_mouse_t report = pointing_device_get_report();
-                report.v += 2;
+                report.v += 1;
                 pointing_device_set_report(report);
             }
             knob_report.dir--;
@@ -229,12 +232,13 @@ void matrix_scan_user(void) {
                 unregister_code(KC_RIGHT);
             } else {
                 report_mouse_t report = pointing_device_get_report();
-                report.v -= 2;
+                report.v -= 1;
                 pointing_device_set_report(report);
             }
             knob_report.dir++;
         }
     }
+#endif
 }
 
 uint32_t layer_state_set_user(uint32_t state) {

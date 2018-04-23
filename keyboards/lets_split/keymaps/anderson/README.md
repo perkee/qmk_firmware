@@ -8,6 +8,8 @@ Featuring:
 
 # Knob inscructions
 
+**Important:** disable KNOB_ENABLED in `rules.mk` when flashing the right split (or simply do not use `knob_*` functions for right split.)
+
 ## V1
 
 I've used pins 4 & 5 (PD4 & PC6) to read digital value from the rotary encoder because Let's Split doesn't use them (Split keyboards FTW! Moar precious free pins!)
