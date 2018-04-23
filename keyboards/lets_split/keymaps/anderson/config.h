@@ -38,4 +38,6 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define RGBLIGHT_ANIMATIONS
 #define RGBLED_NUM 10
 
+#define KNOB_ENABLE
+
 #endif

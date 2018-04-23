@@ -8,7 +8,7 @@ Featuring:
 
 # Knob inscructions
 
-**Important:** disable KNOB_ENABLED in `rules.mk` when flashing the right split (or simply do not use `knob_*` functions for right split.)
+**Important:** disable KNOB_ENABLED in `config.h` when flashing the right split (or simply do not use `knob_*` functions for right split.)
 
 ## V1
 
