@@ -39,5 +39,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #define RGBLED_NUM 10
 
 #define KNOB_ENABLE
+#define C6_AUDIO
+
+#ifdef AUDIO_ENABLE
+//#define STARTUP_SONG SONG(PREONIC_SOUND)
+#endif
 
 #endif

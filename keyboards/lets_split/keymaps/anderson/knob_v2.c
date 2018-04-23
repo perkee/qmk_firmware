@@ -4,14 +4,14 @@ bool knob_prev_a = false;
 knob_report_t knob_report = {.dir = 0, .phase = 0};
 
 void knob_init(void) {
-    // I use pins D1 (ISR1) & C6 for a knob.
+    // I use pins D1 (ISR1) & D4 for a knob.
 
-    // Set pin mode for C6 as input.
-    DDRC &= ~(0UL << PC6);
+    // Set pin mode for D4 as input.
+    DDRD &= ~(0UL << PD4);
 
-    // Enable internal pull-up for C6.
+    // Enable internal pull-up for D4.
     // This is done by "writing" 1 to a pin that has its mode set to input.
-    PORTC |= (1 << PC6);
+    PORTD |= (1 << PD4);
 
     // Enable interrupt for D1
     // For more info on the below flags see this awesome section 11.1 (pages 89-90) here:
@@ -34,7 +34,7 @@ ISR(INT1_vect) {
         // "A" channel has REALLY changed.
         knob_report.phase = a;
         knob_prev_a = a;
-        bool b = PINC & (1 << PC6);
+        bool b = PIND & (1 << PD4);
         if (a == b) {
             // Halfway through CCW rotation (A == B)
             //

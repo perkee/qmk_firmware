@@ -2,6 +2,17 @@ ifndef QUANTUM_DIR
 	include ../../../../Makefile
 endif
 
+API_SYSEX_ENABLE = no
+BOOTMAGIC_ENABLE = no
+CONSOLE_ENABLE = no
+COMMAND_ENABLE = no
+MIDI_ENABLE = no
+UNICODE_ENABLE = no
+UNICODEMAP_ENABLE = no
+BLUETOOTH_ENABLE = no
+FAUXCLICKY_ENABLE = no
+KEY_LOCK_ENABLE = no
 RGBLIGHT_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
+AUDIO_ENABLE = yes
 SRC += solid.c dmc12.c rainbow.c knob_v2.c

@@ -20,11 +20,39 @@ extern keymap_config_t keymap_config;
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 #define _QWERTY 0
-#define _COLEMAK 1
-#define _DVORAK 2
-#define _LOWER 3
-#define _RAISE 4
-#define _ADJUST 16
+#define _LOWER 1
+#define _RAISE 2
+#define _ADJUST 3
+
+#define IS_MOD_HIT(k) (bool)(keyboard_report->mods & MOD_BIT(k))
+
+float LOWER_SND[][2] = {
+    S__NOTE(_C5), S__NOTE(_G4), S__NOTE(_C4)
+};
+float RAISE_SND[][2] = {
+    S__NOTE(_C5), S__NOTE(_G5), S__NOTE(_C6)
+};
+float SHIFT_SND[][2] = {
+    E__NOTE(_E3)
+};
+float ALT_SND[][2] = {
+    E__NOTE(_G3)
+};
+float CTRL_SND[][2] = {
+    E__NOTE(_B3)
+};
+float ESC_SND[][2] = {
+    S__NOTE(_D5), S__NOTE(_D6)
+};
+float LANG_SWITCH_SOUND[][2] = {
+    S__NOTE(_C6), S__NOTE(_C5), S__NOTE(_C6)
+};
+float LOCK_SND[][2] = {
+    E__NOTE(_C5), E__NOTE(_G5), E__NOTE(_C6), E__NOTE(_G6), E__NOTE(_C7)
+};
+float CTRL_BREAK_SND[][2] = {
+    S__NOTE(_A4), S__NOTE(_REST), S__NOTE(_GS4), S__NOTE(_REST), S__NOTE(_G4)
+};
 
 enum custom_keycodes {
     QWERTY = SAFE_RANGE,
@@ -139,6 +167,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LOWER:
             if (record->event.pressed) {
+                PLAY_SONG(LOWER_SND);
                 layer_on(_LOWER);
                 update_tri_layer(_LOWER, _RAISE, _ADJUST);
             } else {
@@ -149,6 +178,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case RAISE:
             if (record->event.pressed) {
+                PLAY_SONG(RAISE_SND);
                 layer_on(_RAISE);
                 update_tri_layer(_LOWER, _RAISE, _ADJUST);
             } else {
@@ -167,6 +197,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             break;
         case LOW_ESC:
             if (record->event.pressed) {
+                PLAY_SONG(LOWER_SND);
                 low_esc_start = timer_read();
                 layer_on(_LOWER);
                 update_tri_layer(_LOWER, _RAISE, _ADJUST);
@@ -174,9 +205,38 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_off(_LOWER);
                 update_tri_layer(_LOWER, _RAISE, _ADJUST);
                 if (timer_elapsed(low_esc_start) < LOW_ESC_TIMEOUT) {
+                    PLAY_SONG(ESC_SND);
                     register_code(KC_ESC);
                     unregister_code(KC_ESC);
                 }
+            }
+            break;
+        case KC_LALT:
+            if (record->event.pressed) {
+                PLAY_SONG(ALT_SND);
+                if (IS_MOD_HIT(KC_LSHIFT)) PLAY_SONG(LANG_SWITCH_SOUND);
+            }
+            break;
+        case KC_LSHIFT:
+            if (record->event.pressed) {
+                PLAY_SONG(SHIFT_SND);
+                if (IS_MOD_HIT(KC_LALT)) PLAY_SONG(LANG_SWITCH_SOUND);
+            }
+            break;
+        case KC_LCTRL:
+        case KC_RCTRL:
+            if (record->event.pressed) {
+                PLAY_SONG(CTRL_SND);
+            }
+            break;
+        case KC_L:
+            if (record->event.pressed && IS_MOD_HIT(KC_LALT) && (IS_MOD_HIT(KC_LCTRL) || IS_MOD_HIT(KC_RCTRL))) {
+                PLAY_SONG(LOCK_SND);
+            }
+            break;
+        case KC_C:
+            if (record->event.pressed && (IS_MOD_HIT(KC_LCTRL) || IS_MOD_HIT(KC_RCTRL)) && !IS_MOD_HIT(KC_LSHIFT)) {
+                PLAY_SONG(CTRL_BREAK_SND);
             }
             break;
     }
@@ -218,8 +278,10 @@ void matrix_scan_user(void) {
                 unregister_code(KC_LEFT);
             } else {
                 report_mouse_t report = pointing_device_get_report();
-                report.v += 2;
+                report.v += 1;
                 pointing_device_set_report(report);
+                /*register_code(KC_UP);*/
+                /*unregister_code(KC_UP);*/
             }
             knob_report.dir--;
         }
@@ -233,8 +295,10 @@ void matrix_scan_user(void) {
                 unregister_code(KC_RIGHT);
             } else {
                 report_mouse_t report = pointing_device_get_report();
-                report.v -= 2;
+                report.v -= 1;
                 pointing_device_set_report(report);
+                /*register_code(KC_DOWN);*/
+                /*unregister_code(KC_DOWN);*/
             }
             knob_report.dir++;
         }
