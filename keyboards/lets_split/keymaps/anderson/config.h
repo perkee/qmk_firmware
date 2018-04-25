@@ -43,6 +43,13 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 #ifdef AUDIO_ENABLE
 //#define STARTUP_SONG SONG(PREONIC_SOUND)
+#define STARTUP_SONG SONG( \
+    E__NOTE(_E6), \
+    E__NOTE(_A6), \
+    Q__NOTE(_E7), \
+    E__NOTE(_E6), \
+    E__NOTE(_E7) \
+)
 #endif
 
 #endif
