@@ -267,7 +267,7 @@ void matrix_scan_user(void) {
 #ifdef KNOB_ENABLE
     knob_report_t knob_report = knob_report_read();
     knob_report_reset();
-    if (knob_report.phase) {
+    if (knob_report.phase) { // I check for phase to avoid handling the rotation twice (on 90 and 270 degrees).
         while (knob_report.dir > 0) {
             // CCW
             if (layer_state_is(_RAISE)) {
