@@ -3,12 +3,14 @@
 
 #include "../../config.h"
 
-/* key matrix pins */
+// Key matrix pins
+#undef MATRIX_COL_PINS
+#undef MATRIX_ROW_PINS
 #define MATRIX_ROW_PINS { D7, E6, B4, B5 }
 #define MATRIX_COL_PINS { B1, B3, B2, B6 }
 
-/* number of backlight levels */
+// Number of backlight levels */
+#undef BACKLIGHT_PIN
 #define BACKLIGHT_PIN D4
-#define BACKLIGHT_LEVELS 6
 
 #endif
