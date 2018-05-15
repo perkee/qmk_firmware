@@ -15,4 +15,6 @@ KEY_LOCK_ENABLE = no
 RGBLIGHT_ENABLE = yes
 POINTING_DEVICE_ENABLE = yes
 AUDIO_ENABLE = yes
-SRC += solid.c dmc12.c rainbow.c knob_v2.c
+#PS2_MOUSE_ENABLE = yes
+#PS2_USE_USART = yes
+SRC += dmc12.c rainbow.c knob_v2.c

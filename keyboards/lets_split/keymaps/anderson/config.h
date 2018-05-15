@@ -35,14 +35,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 // #define EE_HANDS
 
 #undef RGBLED_NUM
-// #define RGBLIGHT_ANIMATIONS
+//#define RGBLIGHT_ANIMATIONS
 #define RGBLED_NUM 10
 
 #define KNOB_ENABLE
 #define C6_AUDIO
 
+//#define KEY_SOUNDS
+
 #ifdef AUDIO_ENABLE
-//#define STARTUP_SONG SONG(PREONIC_SOUND)
+#define STARTUP_SONG_DOOM SONG(E1M1_DOOM)
 #define STARTUP_SONG SONG( \
     E__NOTE(_E6), \
     E__NOTE(_A6), \
