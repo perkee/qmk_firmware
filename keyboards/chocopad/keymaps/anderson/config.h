@@ -13,4 +13,8 @@
 #undef BACKLIGHT_PIN
 #define BACKLIGHT_PIN D4
 
+// Mousekeys
+#define MOUSEKEY_DELAY 0
+#define MOUSEKEY_INTERVAL 40
+
 #endif
