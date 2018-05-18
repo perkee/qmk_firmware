@@ -14,15 +14,31 @@ extern keymap_config_t keymap_config;
 #define _BETA 2
 
 enum custom_keycodes {
-  MAIN = SAFE_RANGE,
-  ALPHA,
-  BETA
+  KC_MAIN = SAFE_RANGE,
+  KC_ALPHA,
+  KC_BETA
 };
 
 // Fillers to make layering more clear
 #define _______ KC_TRNS
 #define XXXXXXX KC_NO
 #define SH(x) LSFT(KC_##x)
+#define KC_SH SH
+#define KC_DEBUG DEBUG
+#define KC_RESET RESET
+#define KC_AON AU_ON
+#define KC_AOFF AU_OFF
+#define KC______ _______
+#define KC_K1 1
+#define KC_K2 2
+#define KC_K3 3
+#define KC_K4 4
+#define KC_K5 5
+#define KC_K6 6
+#define KC_K7 7
+#define KC_K8 8
+#define KC_K9 9
+#define KC_K0 0
 
 // α/ESC timeout.
 // If α is tapped for less than this value, send ESC in addition to enabling α layer.
@@ -34,63 +50,63 @@ enum custom_keycodes {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     /* Main layer
        ┏━━━━━┳━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┓      ┏━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┳━━━━━┓
-       ┃ TAB ┃  Q  |  W  |  E  |  R  |  T  ┃      ┃  Y  |  U  |  I  |  O  |  P  ┃ BSP ┃
-       ┣━━━━━╉-----+-----+-----+-----+-----┫      ┣-----+-----+-----+-----+-----╊━━━━━┫
-       ┃α/ESC┃  A  |  S  |  D  |  F  |  G  ┃      ┃  H  |  J  |  K  |  L  |  ;  ┃ RET ┃
-       ┣━━━━━╉-----+-----+-----+-----+-----┫      ┣-----+-----+-----+-----+-----╊━━━━━┫
-       ┃SHIFT┃  Z  |  X  |  C  |  V  |  B  ┃      ┃  N  |  M  |  ,  |  .  |  /  ┃ CTL ┃
-       ┗━━━━━┻━━━━━━━━━━━┳━━━━━┳━━━━━┳━━━━━┫      ┣━━━━━┳━━━━━┳━━━━━┳━━━━━━━━━━━┻━━━━━┛
+       ┃ TAB ┃  Q  │  W  │  E  │  R  │  T  ┃      ┃  Y  │  U  │  I  │  O  │  P  ┃ BSP ┃
+       ┣━━━━━╉─────┼─────┼─────┼─────┼─────┨      ┠─────┼─────┼─────┼─────┼─────╊━━━━━┫
+       ┃α/ESC┃  A  │  S  │  D  │  F  │  G  ┃      ┃  H  │  J  │  K  │  L  │  ;  ┃ RET ┃
+       ┣━━━━━╉─────┼─────┼─────┼─────┼─────┨      ┠─────┼─────┼─────┼─────┼─────╊━━━━━┫
+       ┃SHIFT┃  Z  │  X  │  C  │  V  │  B  ┃      ┃  N  │  M  │  ,  │  .  │  /  ┃ CTL ┃
+       ┗━━━━━┻━━━━━┷━━━━━╈━━━━━╈━━━━━╈━━━━━┫      ┣━━━━━╈━━━━━╈━━━━━╈━━━━━┷━━━━━┻━━━━━┛
                          ┃ MOD ┃ ALT ┃SPACE┃      ┃SPACE┃  β  ┃  '  ┃
                          ┗━━━━━┻━━━━━┻━━━━━┛      ┗━━━━━┻━━━━━┻━━━━━┛
        */
-    [_MAIN] = LAYOUT( \
-        KC_TAB,  KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,             KC_Y,    KC_U,    KC_I,    KC_O,    KC_P,    KC_BSPC, \
-        ALPHA,   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,             KC_H,    KC_J,    KC_K,    KC_L,    KC_SCLN, KC_ENT,  \
-        KC_LSFT, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,             KC_N,    KC_M,    KC_COMM, KC_DOT,  KC_SLSH, KC_LCTRL,\
-        _______, _______, _______, KC_LGUI, KC_LALT, KC_SPC,           KC_SPC,  BETA,    KC_QUOT, _______, _______, _______  \
+    [_MAIN] = LAYOUT_kc( \
+        TAB,  Q,    W,    E,    R,    T,           Y,    U,    I,    O,    P,    BSPC, \
+        ALPHA,A,    S,    D,    F,    G,           H,    J,    K,    L,    SCLN, ENT,  \
+        LSFT, Z,    X,    C,    V,    B,           N,    M,    COMM, DOT,  SLSH, LCTRL,\
+        _____,_____,_____,LGUI, LALT, SPC,         SPC,  BETA, QUOT, _____,_____,_____ \
     ),
 
     /* Alpha layer (α)
        ┏━━━━━┳━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┓      ┏━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┳━━━━━┓
-       ┃     ┃PREV |PLAY |NEXT |     |     ┃      ┃     | ^^^ |  ^  | vvv |  ~  ┃ DEL ┃
-       ┣━━━━━╉-----+-----+-----+-----+-----┫      ┣-----+-----+-----+-----+-----╊━━━━━┫
-       ┃     ┃     |VOL -|VOL +|     |     ┃      ┃HOME | <-- |  v  | --> |  `  ┃  \  ┃
-       ┣━━━━━╉-----+-----+-----+-----+-----┫      ┣-----+-----+-----+-----+-----╊━━━━━┫
-       ┃     ┃     |     |     |     |     ┃      ┃ END |     |  [  |  ]  |  (  ┃  )  ┃
-       ┗━━━━━┻━━━━━━━━━━━┳━━━━━┳━━━━━┳━━━━━┫      ┣━━━━━┳━━━━━┳━━━━━┳━━━━━━━━━━━┻━━━━━┛
+       ┃     ┃PREV │PLAY │NEXT │     │     ┃      ┃     │ ^^^ │  ^  │ vvv │  ~  ┃ DEL ┃
+       ┣━━━━━╉─────┼─────┼─────┼─────┼─────┨      ┠─────┼─────┼─────┼─────┼─────╊━━━━━┫
+       ┃     ┃     │VOL -│VOL +│     │     ┃      ┃HOME │ <-- │  v  │ --> │  `  ┃  \  ┃
+       ┣━━━━━╉─────┼─────┼─────┼─────┼─────┨      ┠─────┼─────┼─────┼─────┼─────╊━━━━━┫
+       ┃     ┃     │     │     │     │     ┃      ┃ END │ INS │  [  │  ]  │  (  ┃  )  ┃
+       ┗━━━━━┻━━━━━┷━━━━━╈━━━━━╈━━━━━╈━━━━━┫      ┠━━━━━╈━━━━━╈━━━━━╈━━━━━┷━━━━━┻━━━━━┛
                          ┃     ┃     ┃     ┃      ┃     ┃     ┃     ┃
                          ┗━━━━━┻━━━━━┻━━━━━┛      ┗━━━━━┻━━━━━┻━━━━━┛
        */
-    [_ALPHA] = LAYOUT( \
-        _______, KC_MPRV, KC_MPLY, KC_MNXT, _______, _______,          _______, KC_PGUP, KC_UP,   KC_PGDN, KC_TILD, KC_DEL,  \
-        _______, _______, KC_VOLD, KC_VOLU, _______, _______,          KC_HOME, KC_LEFT, KC_DOWN, KC_RIGHT,KC_GRV,  KC_BSLS, \
-        _______, _______, _______, _______, _______, _______,          KC_END,  _______, KC_LBRC, KC_RBRC, SH(9),   SH(0),   \
-        _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______  \
+    [_ALPHA] = LAYOUT_kc( \
+        _____,MPRV, MPLY, MNXT, _____,_____,       _____,PGUP, UP,   PGDN, TILD, DEL,  \
+        _____,_____,VOLD, VOLU, _____,_____,       HOME, LEFT, DOWN, RIGHT,GRV,  BSLS, \
+        _____,_____,_____,_____,_____,_____,       END,  INS,  LBRC, RBRC, SH(9),SH(0),\
+        _____,_____,_____,_____,_____,_____,       _____,_____,_____,_____,_____,_____ \
     ),
 
     /* Beta layer (β)
        ┏━━━━━┳━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┓      ┏━━━━━┯━━━━━┯━━━━━┯━━━━━┯━━━━━┳━━━━━┓
-       ┃  `  ┃  1  |  2  |  3  |  4  |  5  ┃      ┃  6  |  7  |  8  |  9  |  0  ┃ del ┃
-       ┣━━━━━╉-----+-----+-----+-----+-----┫      ┣-----+-----+-----+-----+-----╊━━━━━┫
-       ┃     ┃ F1  | F2  | F3  | F4  | F5  ┃      ┃ F6  | F7  | F8  | F9  | F10 ┃  |  ┃
-       ┣━━━━━╉-----+-----+-----+-----+-----┫      ┣-----+-----+-----+-----+-----╊━━━━━┫
-       ┃     ┃RESET|DEBUG|     | F11 | F12 ┃      ┃SND +|SND -|  {  |  }  |  -  ┃  =  ┃
-       ┗━━━━━┻━━━━━━━━━━━┳━━━━━┳━━━━━┳━━━━━┫      ┣━━━━━┳━━━━━┳━━━━━┳━━━━━━━━━━━┻━━━━━┛
+       ┃  `  ┃  1  │  2  │  3  │  4  │  5  ┃      ┃  6  │  7  │  8  │  9  │  0  ┃ del ┃
+       ┣━━━━━╉─────┼─────┼─────┼─────┼─────┨      ┠─────┼─────┼─────┼─────┼─────╊━━━━━┫
+       ┃     ┃ F1  │ F2  │ F3  │ F4  │ F5  ┃      ┃ F6  │ F7  │ F8  │ F9  │ F10 ┃  |  ┃
+       ┣━━━━━╉─────┼─────┼─────┼─────┼─────┨      ┠─────┼─────┼─────┼─────┼─────╊━━━━━┫
+       ┃     ┃RESET│DEBUG│     │ F11 │ F12 ┃      ┃SND +│SND -│  {  │  }  │  -  ┃  =  ┃
+       ┗━━━━━┻━━━━━┷━━━━━╈━━━━━╈━━━━━╈━━━━━┫      ┣━━━━━╈━━━━━╈━━━━━╈━━━━━┷━━━━━┻━━━━━┛
                          ┃     ┃     ┃     ┃      ┃     ┃     ┃     ┃
                          ┗━━━━━┻━━━━━┻━━━━━┛      ┗━━━━━┻━━━━━┻━━━━━┛
        */
-    [_BETA] = LAYOUT( \
-        _______, KC_1,    KC_2,    KC_3,    KC_4,    KC_5,             KC_6,    KC_7,    KC_8,    KC_9,    KC_0,    KC_DEL,  \
-        _______, KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,            KC_F6,   KC_F7,   KC_F8,   KC_F9,   KC_F10,  KC_PIPE, \
-        _______, RESET,   DEBUG,   _______, KC_F11,  KC_F12,           AU_ON,   AU_OFF,  KC_LCBR, KC_RCBR, KC_MINS, KC_EQUAL,\
-        _______, _______, _______, _______, _______, _______,          _______, _______, _______, _______, _______, _______  \
+    [_BETA] = LAYOUT_kc( \
+        _____,K1,   K2,   K3,   K4,   K5,          K6,   K7,   K8,   K9,   K0,   DEL,  \
+        _____,F1,   F2,   F3,   F4,   F5,          F6,   F7,   F8,   F9,   F10,  PIPE, \
+        _____,RESET,DEBUG,_____,F11,  F12,         AON,  AOFF, LCBR,RCBR, MINS, EQUAL,\
+        _____,_____,_____,_____,_____,_____,       _____,_____,_____,_____,_____,_____ \
     )
 };
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint16_t alpha_esc_start = 0;
     switch (keycode) {
-        case ALPHA:
+        case KC_ALPHA:
             if (record->event.pressed) {
                 layer_on(_ALPHA);
                 alpha_esc_start = timer_read();
@@ -101,7 +117,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 }
             }
             return false;
-        case BETA:
+        case KC_BETA:
             if (record->event.pressed) {
                 layer_on(_BETA);
             } else {
