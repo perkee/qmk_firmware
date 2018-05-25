@@ -2,6 +2,7 @@
 #include "lets_split.h"
 #include "action_layer.h"
 #include "eeconfig.h"
+#include "keys.h"
 
 extern keymap_config_t keymap_config;
 
@@ -19,27 +20,6 @@ enum custom_keycodes {
   KC_BETA
 };
 
-// Fillers to make layering more clear
-#define _______ KC_TRNS
-#define XXXXXXX KC_NO
-#define SH(x) LSFT(KC_##x)
-#define KC_SH SH
-#define KC_DEBUG DEBUG
-#define KC_RESET RESET
-#define KC_AON AU_ON
-#define KC_AOFF AU_OFF
-#define KC______ _______
-#define KC_K1 1
-#define KC_K2 2
-#define KC_K3 3
-#define KC_K4 4
-#define KC_K5 5
-#define KC_K6 6
-#define KC_K7 7
-#define KC_K8 8
-#define KC_K9 9
-#define KC_K0 0
-
 // α/ESC timeout.
 // If α is tapped for less than this value, send ESC in addition to enabling α layer.
 #define ALPHA_ESC_TIMEOUT 90
@@ -56,14 +36,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        ┣━━━━━╉─────┼─────┼─────┼─────┼─────┨      ┠─────┼─────┼─────┼─────┼─────╊━━━━━┫
        ┃SHIFT┃  Z  │  X  │  C  │  V  │  B  ┃      ┃  N  │  M  │  ,  │  .  │  /  ┃ CTL ┃
        ┗━━━━━┻━━━━━┷━━━━━╈━━━━━╈━━━━━╈━━━━━┫      ┣━━━━━╈━━━━━╈━━━━━╈━━━━━┷━━━━━┻━━━━━┛
-                         ┃ MOD ┃ ALT ┃SPACE┃      ┃SPACE┃  β  ┃  '  ┃
+                         ┃ ALT ┃ MOD ┃SPACE┃      ┃SPACE┃  β  ┃  '  ┃
                          ┗━━━━━┻━━━━━┻━━━━━┛      ┗━━━━━┻━━━━━┻━━━━━┛
        */
     [_MAIN] = LAYOUT_kc( \
         TAB,  Q,    W,    E,    R,    T,           Y,    U,    I,    O,    P,    BSPC, \
         ALPHA,A,    S,    D,    F,    G,           H,    J,    K,    L,    SCLN, ENT,  \
         LSFT, Z,    X,    C,    V,    B,           N,    M,    COMM, DOT,  SLSH, LCTRL,\
-        _____,_____,_____,LGUI, LALT, SPC,         SPC,  BETA, QUOT, _____,_____,_____ \
+        _____,_____,_____,LALT, LGUI, SPC,         SPC,  BETA, QUOT, _____,_____,_____ \
     ),
 
     /* Alpha layer (α)
