@@ -4,10 +4,9 @@
 // The underscores don't mean anything - you can have a layer called STUFF or any other name.
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
-#define _QWERTY 0
-#define _COLEMAK 1
-#define _DVORAK 2
-#define _GAME 3
+#define _QDRWB 0
+#define _QWERTY 1
+#define _GAME 2
 #define _ARROW 12
 #define _NUMPAD 13
 #define _LOWER 14
@@ -15,9 +14,8 @@
 #define _ADJUST 16
 
 // Macro name shortcuts
+#define QDRWB M(_QDRWB)
 #define QWERTY M(_QWERTY)
-#define COLEMAK M(_COLEMAK)
-#define DVORAK M(_DVORAK)
 #define GAME M(_GAME)
 #define ARROW M(_ARROW)
 #define NUMPAD M(_NUMPAD)
@@ -31,19 +29,20 @@
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
-/* Qwerty
+/* QDRWB
  * ,-----------------------------------------------------------------------------------.
  * |  Esc |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Tab  |   Q  |   W  |   E  |   R  |   T  |   Y  |   U  |   I  |   O  |   P  |  \   |
+ * | Tab  |   Q  |   D  |   R  |   W  |   B  |   J  |   F  |   U  |   P  |   ;  |  \   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Esc  |   A  |   S  |   D  |   F  |   G  |   H  |   J  |   K  |   L  |   ;  |  "   |
+ * | Esc  |   A  |   S  |   H  |   T  |   G  |   Y  |   N  |   E  |   O  |   I  |  "   |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
- * | Shift|   Z  |   X  |   C  |   V  |   B  |   N  |   M  |   ,  |   .  |   /  |Enter |
+ * | Shift|   Z  |   X  |   M  |   C  |   V  |   K  |   L  |   ,  |   .  |   /  |Enter |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
  * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    | Raise|   -  |  =  |   [   |   ]  |
  * `-----------------------------------------------------------------------------------'
  */
+<<<<<<< Updated upstream
 [_QWERTY] = LAYOUT_preonic_mit( \
   KC_ESC,    KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                KC_6,    KC_7,    KC_8,     KC_9,     KC_0,     KC_BSPC, \
   KC_TAB,    KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,                KC_Y,    KC_U,    KC_I,     KC_O,     KC_P,     KC_BSLASH, \
@@ -51,8 +50,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   KC_LSFT,   KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                KC_N,    KC_M,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_ENT, \
   M(M_BL),   KC_LCTL, KC_LALT, KC_LGUI, LOWER,       LT(_LOWER, KC_SPC),       RAISE,   KC_MINUS, KC_EQUAL, KC_LBRC,  KC_RBRC  \
 ),
+=======
+[_QDRWB] = {
+  {KC_TILD,   KC_1,    KC_2,    KC_3,    KC_4,    KC_5,                KC_6,    KC_7,    KC_8,     KC_9,     KC_0,     KC_ESC},
+  {KC_TAB,    KC_Q,    KC_D,    KC_R,    KC_W,    KC_B,                KC_J,    KC_F,    KC_U,     KC_P,     KC_SCLN,  KC_BSLASH},
+  {LT(_RAISE, KC_BSPC),KC_A,    KC_S,    KC_H,    KC_T,                KC_G,    KC_Y,    KC_N,     KC_E,     KC_O,     KC_I, KC_QUOT},
+  {KC_LSFT,   KC_Z,    KC_X,    KC_M,    KC_C,    KC_V,                KC_K,    KC_L,    KC_COMM,  KC_DOT,   KC_SLSH,  KC_ENT },
+  {M(M_BL),   KC_LCTL, KC_LALT, KC_LGUI, LOWER,   LT(_LOWER, KC_SPC),  KC_SPC,  RAISE,   KC_MINUS, KC_EQUAL, KC_LBRC,  KC_RBRC}
+},
+>>>>>>> Stashed changes
 
-/* Colemak
+/* QWERTY
  * ,-----------------------------------------------------------------------------------.
  * |   `  |   1  |   2  |   3  |   4  |   5  |   6  |   7  |   8  |   9  |   0  | Bksp |
  * |------+------+------+------+------+------+------+------+------+------+------+------|
@@ -65,6 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * | Brite| Ctrl | Alt  | GUI  |Lower |    Space    | Raise|   -  |  =  |   [   |   ]  |
  * `-----------------------------------------------------------------------------------'
  */
+<<<<<<< Updated upstream
 [_COLEMAK] = LAYOUT_preonic_mit( \
   _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______, \
   _______, KC_Q,    KC_W,    KC_F,    KC_P,    KC_G,    KC_J,    KC_L,    KC_U,    KC_Y,    KC_SCLN, _______, \
@@ -93,6 +102,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, KC_SCLN, KC_Q,    KC_J,    KC_K,    KC_X,    KC_B,    KC_M,    KC_W,    KC_V,    KC_Z,    _______, \
   _______, _______, _______, _______, _______,     _______,      _______, _______, _______, _______, _______  \
 ),
+=======
+[_QWERTY] = {
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,    _______},
+  {_______, KC_Q,    KC_W,    KC_E,    KC_R,    KC_T,    KC_Y,    KC_U,    KC_I,     KC_O,     KC_P,     _______},
+  {_______, KC_A,    KC_S,    KC_D,    KC_F,    KC_G,    KC_H,    KC_J,    KC_K,     KC_L,     KC_SCLN,  KC_QUOT},
+  {_______, KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,    KC_N,    KC_M,    KC_COMM,  KC_DOT,   KC_SLSH,  _______},
+  {_______, _______, _______, _______, _______, _______, _______, _______, _______, _______, _______,    _______}
+},
+>>>>>>> Stashed changes
 
 /* GAME
  * ,-----------------------------------------------------------------------------------.
@@ -190,6 +208,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  * |      |      |      |      |      |     Reset   |      |      |      |      |      |
  * `-----------------------------------------------------------------------------------'
  */
+<<<<<<< Updated upstream
 [_ADJUST] = LAYOUT_preonic_mit( \
   _______, _______,  QWERTY, COLEMAK,  DVORAK, _______,          _______,        _______, _______, _______, _______, _______, \
   _______, RESET,   _______, AG_NORM, AG_SWAP, _______,          _______,        _______, _______, _______, _______, KC_DEL,  \
@@ -197,6 +216,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   _______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  KC_SYSTEM_SLEEP,  KC_SYSTEM_WAKE, ARROW,      GAME,  NUMPAD, _______, _______, \
   _______, _______, _______, _______, _______,              RESET,                _______, _______, _______, _______, _______  \
 )
+=======
+[_ADJUST] = {
+  {_______, _______,  QDRWB, QWERTY,  _______, _______,          _______,        _______, _______, _______, _______, _______},
+  {_______, RESET,   _______, AG_NORM, AG_SWAP, _______,          _______,        _______, _______, _______, _______, KC_DEL},
+  {_______, _______, _______, AU_ON,   AU_OFF,  MI_ON,            MI_OFF,         QDRWB,  QWERTY,  _______, _______, _______},
+  {_______, MUV_DE,  MUV_IN,  MU_ON,   MU_OFF,  KC_SYSTEM_SLEEP,  KC_SYSTEM_WAKE, ARROW,      GAME,  NUMPAD, _______, _______},
+  {_______, _______, _______, _______, _______, RESET,            RESET,          _______, _______, _______, _______, _______}
+}
+>>>>>>> Stashed changes
 
 
 };
@@ -228,28 +256,20 @@ void persistent_default_layer_set(uint16_t default_layer) {
 const macro_t *action_get_macro(keyrecord_t *record, uint8_t id, uint8_t opt)
 {
       switch(id) {
-        case _QWERTY:
+        case _QDRWB:
           if (record->event.pressed) {
             #ifdef AUDIO_ENABLE
               PLAY_SONG(tone_qwerty);
             #endif
-            persistent_default_layer_set(1UL<<_QWERTY);
+            persistent_default_layer_set(1UL<<_QDRWB);
           }
           break;
-        case _COLEMAK:
+        case _QWERTY:
           if (record->event.pressed) {
             #ifdef AUDIO_ENABLE
               PLAY_SONG(tone_colemak);
             #endif
-            persistent_default_layer_set(1UL<<_COLEMAK);
-          }
-          break;
-        case _DVORAK:
-          if (record->event.pressed) {
-            #ifdef AUDIO_ENABLE
-              PLAY_SONG(tone_dvorak);
-            #endif
-            persistent_default_layer_set(1UL<<_DVORAK);
+            persistent_default_layer_set(1UL<<_QWERTY);
           }
           break;
         case _GAME:
