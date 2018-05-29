@@ -3,6 +3,7 @@
 #include "action_layer.h"
 #include "eeconfig.h"
 #include "keys.h"
+#include "pro_micro.h"
 
 extern keymap_config_t keymap_config;
 
@@ -17,12 +18,13 @@ extern keymap_config_t keymap_config;
 enum custom_keycodes {
   KC_MAIN = SAFE_RANGE,
   KC_ALPHA,
-  KC_BETA
+  KC_BETA,
+  KC_D_CTRL_EQUAL
 };
 
-// α/ESC timeout.
-// If α is tapped for less than this value, send ESC in addition to enabling α layer.
-#define ALPHA_ESC_TIMEOUT 90
+// Dual keys tap/hold timeout.
+// If key is tapped for less than this value, send key in addition to primary action after completing the action.
+#define DUAL_HOLD_TIMEOUT 90
 
 // TAP shortcut
 #define TAP(key) register_code(key); unregister_code(key)
@@ -42,7 +44,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_MAIN] = LAYOUT_kc( \
         TAB,  Q,    W,    E,    R,    T,           Y,    U,    I,    O,    P,    BSPC, \
         ALPHA,A,    S,    D,    F,    G,           H,    J,    K,    L,    SCLN, ENT,  \
-        LSFT, Z,    X,    C,    V,    B,           N,    M,    COMM, DOT,  SLSH, LCTRL,\
+        LSFT, Z,    X,    C,    V,    B,           N,    M,    COMM, DOT,  SLSH, D_CTRL_EQUAL,\
         _____,_____,_____,LALT, LGUI, SPC,         SPC,  BETA, QUOT, _____,_____,_____ \
     ),
 
@@ -78,13 +80,25 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_BETA] = LAYOUT_kc( \
         _____,K1,   K2,   K3,   K4,   K5,          K6,   K7,   K8,   K9,   K0,   DEL,  \
         _____,F1,   F2,   F3,   F4,   F5,          F6,   F7,   F8,   F9,   F10,  PIPE, \
-        _____,RESET,DEBUG,_____,F11,  F12,         AON,  AOFF, LCBR,RCBR, MINS, EQUAL,\
+        _____,RESET,DEBUG,_____,F11,  F12,         AON,  AOFF, LCBR, RCBR, MINS, EQL,  \
         _____,_____,_____,_____,_____,_____,       _____,_____,_____,_____,_____,_____ \
     )
 };
 
+void matrix_init_user(void) {
+    rgblight_setrgb_at(255, 0, 255, 0);
+}
+
+void matrix_slave_scan_user(void) {
+    TXLED1;
+    _delay_us(10000);
+    TXLED0;
+    _delay_us(10000);
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint16_t alpha_esc_start = 0;
+    static uint16_t ctrl_equal_start = 0;
     switch (keycode) {
         case KC_ALPHA:
             if (record->event.pressed) {
@@ -92,7 +106,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 alpha_esc_start = timer_read();
             } else {
                 layer_off(_ALPHA);
-                if (timer_elapsed(alpha_esc_start) < ALPHA_ESC_TIMEOUT) {
+                if (timer_elapsed(alpha_esc_start) < DUAL_HOLD_TIMEOUT) {
                     TAP(KC_ESC);
                 }
             }
@@ -104,6 +118,36 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 layer_off(_BETA);
             }
             return false;
+        case KC_D_CTRL_EQUAL:
+            if (record->event.pressed) {
+                register_code(KC_RCTL);
+                ctrl_equal_start = timer_read();
+            } else {
+                unregister_code(KC_RCTL);
+                if (timer_elapsed(ctrl_equal_start) < DUAL_HOLD_TIMEOUT) {
+                    TAP(KC_MINS);
+                }
+            }
+            return false;
+        case RESET:
+            rgblight_setrgb_at(255, 255, 0, 0);
+            break;
     }
     return true;
+}
+
+uint32_t layer_state_set_user(uint32_t state) {
+    uint8_t layer = biton32(state);
+    switch (layer) {
+        case _MAIN:
+            rgblight_setrgb_at(255, 0, 255, 0);
+            break;
+        case _ALPHA:
+            rgblight_setrgb_at(255, 0, 0, 0);
+            break;
+        case _BETA:
+            rgblight_setrgb_at(0, 0, 255, 0);
+            break;
+    }
+    return state;
 }
