@@ -3,3 +3,6 @@ ifndef QUANTUM_DIR
 endif
 
 RGBLIGHT_ENABLE = yes
+POINTING_DEVICE_ENABLE = yes
+
+SRC += smoothled.c knob_v2.c

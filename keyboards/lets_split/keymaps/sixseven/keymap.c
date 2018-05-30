@@ -4,6 +4,9 @@
 #include "eeconfig.h"
 #include "keys.h"
 #include "pro_micro.h"
+#include "pointing_device.h"
+#include "smoothled.h"
+#include "knob_v2.h"
 
 extern keymap_config_t keymap_config;
 
@@ -24,7 +27,7 @@ enum custom_keycodes {
 
 // Dual keys tap/hold timeout.
 // If key is tapped for less than this value, send key in addition to primary action after completing the action.
-#define DUAL_HOLD_TIMEOUT 90
+#define DUAL_HOLD_TIMEOUT 65
 
 // TAP shortcut
 #define TAP(key) register_code(key); unregister_code(key)
@@ -86,14 +89,55 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void matrix_init_user(void) {
-    rgblight_setrgb_at(255, 0, 255, 0);
+    smoothled_set(0, 0, 16);
+    knob_init();
+    /*rgblight_setrgb(255, 0, 255);*/
+}
+
+void matrix_scan_user(void) {
+    smoothled_process();
+
+    knob_report_t knob_report = knob_report_read();
+    knob_report_reset();
+    if (knob_report.phase) { // I check for phase to avoid handling the rotation twice (on 90 and 270 degrees).
+        while (knob_report.dir < 0) {
+            // CCW
+            if (layer_state_is(_BETA)) {
+                register_code(KC_VOLD);
+                unregister_code(KC_VOLD);
+            } else if (layer_state_is(_ALPHA)) {
+                register_code(KC_LEFT);
+                unregister_code(KC_LEFT);
+            } else {
+                report_mouse_t report = pointing_device_get_report();
+                report.v += 1;
+                pointing_device_set_report(report);
+                /*register_code(KC_UP);*/
+                /*unregister_code(KC_UP);*/
+            }
+            knob_report.dir++;
+        }
+        while (knob_report.dir > 0) {
+            // CW
+            if (layer_state_is(_BETA)) {
+                register_code(KC_VOLU);
+                unregister_code(KC_VOLU);
+            } else if (layer_state_is(_ALPHA)) {
+                register_code(KC_RIGHT);
+                unregister_code(KC_RIGHT);
+            } else {
+                report_mouse_t report = pointing_device_get_report();
+                report.v -= 1;
+                pointing_device_set_report(report);
+                /*register_code(KC_DOWN);*/
+                /*unregister_code(KC_DOWN);*/
+            }
+            knob_report.dir--;
+        }
+    }
 }
 
 void matrix_slave_scan_user(void) {
-    TXLED1;
-    _delay_us(10000);
-    TXLED0;
-    _delay_us(10000);
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
@@ -130,7 +174,8 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
             }
             return false;
         case RESET:
-            rgblight_setrgb_at(255, 255, 0, 0);
+            /*smoothled_set(255, 255, 0);*/
+            rgblight_setrgb(255, 255, 0);
             break;
     }
     return true;
@@ -140,13 +185,16 @@ uint32_t layer_state_set_user(uint32_t state) {
     uint8_t layer = biton32(state);
     switch (layer) {
         case _MAIN:
-            rgblight_setrgb_at(255, 0, 255, 0);
+            smoothled_set(0, 0, 16);
+            /*rgblight_setrgb(255, 0, 255);*/
             break;
         case _ALPHA:
-            rgblight_setrgb_at(255, 0, 0, 0);
+            smoothled_set(255, 0, 16);
+            /*rgblight_setrgb(255, 0, 0);*/
             break;
         case _BETA:
-            rgblight_setrgb_at(0, 0, 255, 0);
+            smoothled_set(32, 0, 255);
+            /*rgblight_setrgb(0, 0, 255);*/
             break;
     }
     return state;
