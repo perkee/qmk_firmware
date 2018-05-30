@@ -27,7 +27,7 @@ void knob_init(void) {
 }
 
 ISR(INT1_vect) {
-    // Pin D2 (PD1)
+    // Port PD1 (Pin 2)
     bool a = PIND & (1 << PD1);
 
     if (knob_prev_a != a) {
@@ -60,13 +60,13 @@ ISR(INT1_vect) {
 }
 
 knob_report_t knob_report_read(void) {
-    // Determine if the knob was rotated since last call.
-    // Return 0 if not, non-zero if N rotations occured.
-    // Call this as often as possible (likely from within matrix_scan_*)
+    // Return knob report.
     return knob_report;
 }
 
 void knob_report_reset(void) {
+    // Call this ASAP once you've processed the previous knob report.
+    // TODO: This should probably be called within `knob_report_read`.
     knob_report = (knob_report_t){.dir = 0, .phase = 0};
 }
 
