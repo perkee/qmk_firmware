@@ -21,13 +21,12 @@ extern keymap_config_t keymap_config;
 enum custom_keycodes {
   KC_MAIN = SAFE_RANGE,
   KC_ALPHA,
-  KC_BETA,
-  KC_D_CTRL_EQUAL
+  KC_BETA
 };
 
 // Dual keys tap/hold timeout.
 // If key is tapped for less than this value, send key in addition to primary action after completing the action.
-#define DUAL_HOLD_TIMEOUT 65
+#define DUAL_HOLD_TIMEOUT 80
 
 // TAP shortcut
 #define TAP(key) register_code(key); unregister_code(key)
@@ -39,15 +38,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        ┣━━━━━╉─────┼─────┼─────┼─────┼─────┨      ┠─────┼─────┼─────┼─────┼─────╊━━━━━┫
        ┃α/ESC┃  A  │  S  │  D  │  F  │  G  ┃      ┃  H  │  J  │  K  │  L  │  ;  ┃ RET ┃
        ┣━━━━━╉─────┼─────┼─────┼─────┼─────┨      ┠─────┼─────┼─────┼─────┼─────╊━━━━━┫
-       ┃SHIFT┃  Z  │  X  │  C  │  V  │  B  ┃      ┃  N  │  M  │  ,  │  .  │  /  ┃ CTL ┃
+       ┃SHIFT┃  Z  │  X  │  C  │  V  │  B  ┃      ┃  N  │  M  │  ,  │  .  │  /  ┃CTL/-┃
        ┗━━━━━┻━━━━━┷━━━━━╈━━━━━╈━━━━━╈━━━━━┫      ┣━━━━━╈━━━━━╈━━━━━╈━━━━━┷━━━━━┻━━━━━┛
-                         ┃ ALT ┃ MOD ┃SPACE┃      ┃SPACE┃  β  ┃  '  ┃
+                         ┃ ALT ┃ MOD ┃SPACE┃      ┃SPACE┃ β/= ┃  '  ┃
                          ┗━━━━━┻━━━━━┻━━━━━┛      ┗━━━━━┻━━━━━┻━━━━━┛
        */
     [_MAIN] = LAYOUT_kc( \
         TAB,  Q,    W,    E,    R,    T,           Y,    U,    I,    O,    P,    BSPC, \
         ALPHA,A,    S,    D,    F,    G,           H,    J,    K,    L,    SCLN, ENT,  \
-        LSFT, Z,    X,    C,    V,    B,           N,    M,    COMM, DOT,  SLSH, D_CTRL_EQUAL,\
+        LSFT, Z,    X,    C,    V,    B,           N,    M,    COMM, DOT,  SLSH, RCTRL,\
         _____,_____,_____,LALT, LGUI, SPC,         SPC,  BETA, QUOT, _____,_____,_____ \
     ),
 
@@ -142,7 +141,8 @@ void matrix_slave_scan_user(void) {
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint16_t alpha_esc_start = 0;
-    static uint16_t ctrl_equal_start = 0;
+    static uint16_t beta_equal_start = 0;
+    static uint16_t ctrl_dash_start = 0;
     switch (keycode) {
         case KC_ALPHA:
             if (record->event.pressed) {
@@ -158,17 +158,21 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case KC_BETA:
             if (record->event.pressed) {
                 layer_on(_BETA);
+                beta_equal_start = timer_read();
             } else {
                 layer_off(_BETA);
+                if (timer_elapsed(beta_equal_start) < DUAL_HOLD_TIMEOUT) {
+                    TAP(KC_EQL);
+                }
             }
             return false;
-        case KC_D_CTRL_EQUAL:
+        case KC_RCTRL:
             if (record->event.pressed) {
                 register_code(KC_RCTL);
-                ctrl_equal_start = timer_read();
+                ctrl_dash_start = timer_read();
             } else {
                 unregister_code(KC_RCTL);
-                if (timer_elapsed(ctrl_equal_start) < DUAL_HOLD_TIMEOUT) {
+                if (timer_elapsed(ctrl_dash_start) < DUAL_HOLD_TIMEOUT) {
                     TAP(KC_MINS);
                 }
             }
