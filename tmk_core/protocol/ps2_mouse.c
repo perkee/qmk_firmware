@@ -176,7 +176,11 @@ static inline void ps2_mouse_convert_report_to_hid(report_mouse_t *mouse_report)
     // invert coordinate of y to conform to USB HID mouse
     mouse_report->y = -mouse_report->y;
 #endif
-
+    int x, y;
+    x = mouse_report->x;
+    y = mouse_report->y;
+    mouse_report->x = y;
+    mouse_report->y = -x;
 }
 
 static inline void ps2_mouse_clear_report(report_mouse_t *mouse_report) {

@@ -1,0 +1,8 @@
+- VCC       !
+- GND       !
+- CLOCK     !
+- 3         L?
+- 2         R?
+- 1         M?
+- RST
+- DATA      !

@@ -1,28 +1,33 @@
 #include <smoothled.h>
 
-uint8_t sourceColor[3] = {0, 0, 0};
-uint8_t targetColor[3] = {0, 0, 0};
-static uint16_t smoothledTimer = 0;
+static uint8_t sourceColor[3] = {0, 0, 0};
+static uint8_t currentColor[3] = {0, 0, 0};
+static uint8_t targetColor[3] = {0, 0, 0};
+static int32_t smoothledTimer = -1;
 
 void smoothled_set(uint8_t r, uint8_t g, uint8_t b) {
-    smoothledTimer = timer_read();
-    sourceColor[0] = targetColor[0];
-    sourceColor[1] = targetColor[1];
-    sourceColor[2] = targetColor[2];
+    smoothledTimer = timer_read32();
+    sourceColor[0] = currentColor[0];
+    sourceColor[1] = currentColor[1];
+    sourceColor[2] = currentColor[2];
     targetColor[0] = r;
     targetColor[1] = g;
     targetColor[2] = b;
 }
 
 void smoothled_process(void) {
-    uint16_t dt = timer_elapsed(smoothledTimer);
-    if (dt > SMOOTH_DURATION) {
-        rgblight_setrgb(targetColor[0], targetColor[1], targetColor[2]);
-    } else {
-        uint8_t currentColor[3];
-        for (int i = 0; i < 3; i++) {
-            currentColor[i] = (((uint16_t)sourceColor[i]) * (SMOOTH_DURATION - dt) + ((uint16_t)targetColor[i]) * dt) / SMOOTH_DURATION;
-        }
-        rgblight_setrgb(currentColor[0], currentColor[1], currentColor[2]);
+    if (smoothledTimer < 0) {
+        return;
     }
+    int32_t kb = timer_elapsed32(smoothledTimer);
+    int32_t ka = SMOOTH_DURATION - kb;
+    if (kb > SMOOTH_DURATION) {
+        kb = SMOOTH_DURATION;
+        ka = 0;
+        smoothledTimer = -1;
+    }
+    for (int i = 0; i < 3; i++) {
+        currentColor[i] = (ka * sourceColor[i] + kb * targetColor[i]) / SMOOTH_DURATION;
+    }
+    rgblight_setrgb(currentColor[0], currentColor[1], currentColor[2]);
 }

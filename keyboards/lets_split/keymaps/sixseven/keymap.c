@@ -88,7 +88,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 void matrix_init_user(void) {
-    smoothled_set(0, 0, 16);
+    smoothled_set(0, 0, 32);
     knob_init();
     /*rgblight_setrgb(255, 0, 255);*/
 }
@@ -143,6 +143,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     static uint16_t alpha_esc_start = 0;
     static uint16_t beta_equal_start = 0;
     static uint16_t ctrl_dash_start = 0;
+    /*record->event.pressed ? smoothled_set(255, 0, 16) : smoothled_set(0, 0, 16);*/
     switch (keycode) {
         case KC_ALPHA:
             if (record->event.pressed) {
@@ -189,7 +190,7 @@ uint32_t layer_state_set_user(uint32_t state) {
     uint8_t layer = biton32(state);
     switch (layer) {
         case _MAIN:
-            smoothled_set(0, 0, 16);
+            smoothled_set(0, 0, 32);
             /*rgblight_setrgb(255, 0, 255);*/
             break;
         case _ALPHA:

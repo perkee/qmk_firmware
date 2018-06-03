@@ -291,7 +291,9 @@ void matrix_slave_scan(void) {
 
 bool matrix_is_modified(void)
 {
+#   if (DEBOUNCING_DELAY > 0)
     if (debouncing) return false;
+#   endif
     return true;
 }
 
