@@ -14,7 +14,7 @@ I'll be referencing the above article in my log.
 I've got mine from a Lenovo ThinkPad R61 keyboard. I easily found a bunch of old ones on the internet.
 The great thing is that you can easily detach them from a keyboard! This makes it even easier to mount them.
 
-Once you've got your trackpoint, refer to ![this article](https://deskthority.net/wiki/TrackPoint_Hardware) to figure out the wiring.
+Once you've got your trackpoint, refer to [this article](https://deskthority.net/wiki/TrackPoint_Hardware) to figure out the wiring.
 
 I've identified mine as **R61** (marking on the back may differ - W7O, W8P etc).
 
