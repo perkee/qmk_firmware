@@ -49,6 +49,15 @@ Of course we can generate CLOCK signal on the right split, but it won't be synch
 To be sure that the stuff is wired as QMK expects us to, we'll need to connect CLOCK and DATA to the Pro Micro on the left (master) side. To do this, I've found it easiest
 to ditch TRRS (and its shitty connectors) in favor of a colorful jumper wires connection. More colors to this world!
 
+So the wires that connect the halves are:
+
+- GND
+- VCC
+- DATA for QMK key sync
+- DATA for LED underglow
+- CLOCK for trackpoint
+- DATA for trackpoint
+
 ![Jumper wires connection](./3.jpg)
 
 Here's what I've ended up with:
@@ -61,11 +70,19 @@ You can also see 4.7 kOhm resistors between VCC and CLOCK & DATA pins - this is 
 
 Also keep in mind that you'll need to solder CLOCK wire to PD5 port on Pro Micro which is occupied by a TX led (circled in red.)
 
+Here's my spaghetti board:
+
 ![Left](./4.jpg)
 
 ## Right (master) split
 
+Here's my other spaghetti board:
+
 ![Left](./5.jpg)
+
+# Software
+
+I've used USART method (best) because I connected to pins RX & 22. See link to by @alonswartz tutorial in the beginning of this artiche.
 
 # Known issues
 
@@ -74,6 +91,36 @@ in around 20% cases. In other 80% cases it just jumps chaotically around the scr
 
 Here's what a recet circuit should look like:
 
+# Trackpoint orientation
+
+I had to patch `tmk_core/protocol/ps2_mouse.c` (line 179) to rotate my trackpoint readings by 90 degrees CW (my trackpoint was mounted rotated by 90 degrees CCW):
+
+```
++    int x, y;
++    x = mouse_report->x;
++    y = mouse_report->y;
++    mouse_report->x = y;
++    mouse_report->y = -x;
+```
+
+# FAQ
+
+Q: Why didn't you connect all 4 trackpoint pins to the slave Pro Micro?
+
+Because slave part only reports key presses & releases to the master. It won't be able to properly deliver trackpoint mouse control signals to the PC.
+
+Q: Why didn't you simply use the right half as master and avoid all the headache with adding extra 2 wires to connect the halves?
+
+Because I use rotary encoder on the left (master) part and connecting in right part to the PC instead of the left would break the encoder that's located on the left part. :v
+
+Q: How did you connect to pin D22 (port PD5) and what's so special about it?
+
+There are 2 "hidden" pins in the Pro Micro: 8 (port PB0, connected to RX LED) and 22 (port PD5, connected to TX LED). You can connect to them
+by soldering a wire on the lower leg of the resistors located below the RX/TX leds (if you hold your Pro Micro with its USB socket up).
+
+Pin 22 is "special" because, IIRC, it can generate proper CLOCK signal in conjuction with RX pin.
+
 ![Reset circuit](./8.jpg)
 
-I hope it was helpful. If not - sorry. I've tried to be verbose. If you have any questions - let me know: a.dun@ai or /u/andunai.
+I hope it was helpful. If not - sorry. I've tried to be verbose. Unfortunately I didn't take much photos during assembly.
+If you have any questions - let me know: a.dun@ai or /u/andunai.
