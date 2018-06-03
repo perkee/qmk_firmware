@@ -20,6 +20,9 @@ I've identified mine as **R61** (marking on the back may differ - W7O, W8P etc).
 
 ![R61 pinout](./1.jpg)
 
+Note: Pin 7 is actually in the same row as all the rest, my guess is that the image above contains a trackpoint with its ground pin damaged,
+so the author had to solder it in a different place.
+
 The wires we'll need at the moment are VCC (8), GND (7), CLOCK (6) and DATA (1).
 
 Also border width of my keyboard won't let me mount my trackpoint on the side, so we'll decouple the trackpoint into two parts
